@@ -1,0 +1,1032 @@
+
+{  
+    "$schema": "https://raw.githubusercontent.com/revisit-studies/study/v2.1.1/src/parser/StudyConfigSchema.json",
+    "studyMetadata": {
+        "title": "Text, Visual, Embodied Learning Study: Summer 2026",
+        "version": "pilot",
+        "authors": [
+            "Research Team"
+        ],
+        "date": "2026-06-03",
+        "description": "",
+        "organizations": [
+            "WPI"
+        ]
+  },
+    "uiConfig": {
+        "contactEmail": "contact@revisit.dev",
+        "helpTextPath": "demo-image/assets/help.md",
+        "logoPath": "revisitAssets/revisitLogoSquare.svg",
+        "withProgressBar": true,
+        "autoDownloadStudy": false,
+        "withSidebar": false,
+        "nextOnEnter": true,
+        "recordAudio": false
+    },
+    "components": {
+        "Consent": {
+            "type": "questionnaire",
+            "response": [
+                {
+                    "id": "tve-learning/introtext",
+                    "prompt": "## Homework Assignment\n\n**Description:** In this survey, you will learn about confidence intervals through a series of instructional videos and guided self-exploration activities.\n\nTo ensure a smooth experience, please:\n\n- Find a quiet environment free from distractions.\n- Use a device with a stable internet connection. **Please use a computer/laptop for this activity**; otherwise some of the functions will not work properly.\n- Make sure your audio is working properly.\n\nYou are completing this survey to receive extra credit for your course.\n\n**<u>The survey will take approximately one hour, and must be completed in a single sitting.</u>**\n\nAlthough credit is based on completion, **<u>you must remain engaged and complete all components as intended in order to receive extra credit.</u>** Even if you don't know the answer to a question, we'd like to see your thinking process. For example, if you answer \"yes\" or \"I'm not sure\" for all questions you will not get credit. AI use is also prohibited in this survey.\n\nPlease advance the page if you agree to share your data anonymously with the research team. You may leave the page now if you do not wish to participate.",
+                    "type": "radio",
+                    "options": ["Yes", "No"],
+                    "required": true,
+                    "requiredValue": "Yes"
+                },
+                {
+                    "id": "tve-learning/precheck1",
+                    "prompt": "Are you in a quiet environment, using a computer or laptop for this activity, and do you expect to be able to devote your full attention to it for the next hour?",
+                    "type": "radio",
+                    "options": ["Yes", "No. I will come back to the survey."],
+                    "required": true,
+                    "requiredValue": "Yes"
+                },
+                {
+                    "id": "tve-learning/precheck2",
+                    "prompt": "If you encounter an open-response question in this survey and you are not sure of the answer, what should you do?",
+                    "type": "radio",
+                    "options": [
+                        "Leave the question blank because I do not know the correct answer.",
+                        "Write “I don’t know” and move on without further explanation.",
+                        "Take my best guess and explain my thinking, even if I am unsure, by describing what I know, what I am considering, or where I feel confused.",
+                        "Search online or ask someone else for the answer."
+                    ],
+                    "required": true,
+                    "requiredValue": "Take my best guess and explain my thinking, even if I am unsure, by describing what I know, what I am considering, or where I feel confused."
+                }
+            ]
+        },
+        "Consent2": {
+            "type": "questionnaire",
+            "response": [
+                {
+                    "id": "tve-learning/Q2",
+                    "type": "textOnly",
+                    "prompt": "Now we will collect some basic information."
+                },
+                {
+                    "id": "tve-learning/Q3",
+                    "prompt": "What is your first name? (This information will only be used for the purpose of distributing your course credit.)",
+                    "type": "shortText"
+                },
+                {
+                    "id": "tve-learning/Q4",
+                    "prompt": "What is your last name? (This information will only be used for the purpose of distributing your course credit.)",
+                    "type": "shortText"
+                },
+                {
+                    "id": "tve-learning/Q5",
+                    "prompt": "What is your email? (This information will only be used for the purpose of distributing your course credit.)",
+                    "type": "shortText"
+                },
+                {
+                    "id": "tve-learning/Q6",
+                    "prompt": "To ensure we can assign extra credit, enter your UCR NetID (e.g., aditt001). (This information will only be used for the purpose of distributing extra credit.)",
+                    "type": "shortText"
+                },
+                {
+                    "id": "tve-learning/Q7",
+                    "prompt": "What is your gender?",
+                    "type": "radio",
+                    "options": [
+                        "Women",
+                        "Men",
+                        "Non binary",
+                        "Prefer not to say"
+                    ],
+                    "withOther": true
+                },
+                {
+                    "id": "tve-learning/Q8",
+                    "prompt": "What is your race?",
+                    "type": "radio",
+                    "options": [
+                        "American Indian or Alaska Native",
+                        "Asian",
+                        "Black or African American",
+                        "Native Hawaiian or Other Pacific Islander",
+                        "White",
+                        "Hispanic",
+                        "Prefer not to say"
+                    ],
+                    "withOther": true
+                },
+                {
+                    "id": "tve-learning/Q9",
+                    "prompt": "What year of college are you in?",
+                    "type": "radio",
+                    "options": [
+                        "First year",
+                        "Second year",
+                        "Third year",
+                        "Fourth year"
+                    ]
+                },
+                {
+                    "id": "tve-learning/Q10",
+                    "prompt": "How many college-level statistics courses have you taken before taking this class?",
+                    "type": "radio",
+                    "options": [
+                        "0", "1", "2", "3 or more"
+                    ]
+                },
+                {
+                    "id": "tve-learning/MBL",
+                    "prompt": "Please indicate your level of agreement with the following statement (1 = Strongly Disagree, 7 = Strongly Agree):",
+                    "type": "matrix-radio",
+                    "answerOptions": ["1(Strongly disagree)", "2(Disagree)", "3(Somewhat disagree)", "4(Unsure)", "5(Somewhat agree)", "6(Agree)", "7(Strongly agree)"],
+                    "questionOptions": [
+                        "In statistics and data science class, I want to learn as much as possible.",
+                        "In statistics and data science class, it's important for me to understand the content as thoroughly as possible.",
+                        "In statistics and data science class, I desire to completely master the material presented."
+                    ]
+                },
+                {
+                    "id": "tve-learning/Q215",
+                    "prompt": "Please indicate how much you agree with the following statements about knowledge and learning.",
+                    "type": "matrix-radio",
+                    "answerOptions": ["1(Strongly disagree)", "2(Disagree)", "3(Somewhat disagree)", "4(Unsure)", "5(Somewhat agree)", "6(Agree)", "7(Strongly agree)"],
+                    "questionOptions": [
+                        "Knowledge consists of simple, unconnected facts.",
+                        "Learning mainly involves memorizing information so that it can be recalled later.",
+                        "If I can remember the correct answer, it means I have learned the material."
+                    ]
+                }
+            ]
+        },
+        "Pretest_intro": {
+            "type": "questionnaire",
+            "response": [
+                {
+                    "id": "tve-learning/pretest_intro",
+                    "type": "textOnly",
+                    "prompt": "The next set of questions tests your knowledge prior to the instruction. Try to give your best guess and reasoning if you are unsure about a question."
+                }
+            ]
+        },
+        "Pretest": {
+            "type": "questionnaire",
+            "response": [
+                {
+                    "id": "tve-learning/pre_1_understanding",
+                    "type": "radio",
+                    "prompt": "What is a sampling distribution?",
+                    "options": [
+                        "The distribution of data values within a single sample.",
+                        "The distribution of all possible sample statistics (e.g., means) from repeated random samples of the same size from a population.",
+                        "The distribution of the population statistics (e.g., means) based on the sample statistic we observed.",
+                        "The distribution of errors that occur when sampling."
+                    ]
+                },
+                {
+                    "id": "tve-learning/pre_2_understanding",
+                    "type": "checkbox",
+                    "prompt": "What does the shaded area represent in the sampling distribution below? **[Select ALL that apply]**\n\n![Sampling Distribution of the Mean](tve-learning-summer/assets/samplingDist.png)",
+                    "options": [
+                        "The probability that the population mean falls in between 95 and 105.",
+                        "The probability that a sample mean will fall in between 95 and 105.",
+                        "The sample means that are not unlikely to come from a population with a mean of 100.",
+                        "The sample means that are unlikely to come from a population with a mean of 100."
+                    ]
+                },
+                {
+                    "id": "tve-learning/pre_3_understanding",
+                    "type": "radio",
+                    "prompt": "Suppose the sampling distribution of sample means is centered at 3. What does that mean?",
+                    "options": [
+                        "The observed sample mean is 3",
+                        "The true population mean is assumed to be 3",
+                        "Most students scored 3",
+                        "The sample size is 3"
+                    ]
+                },
+                {
+                    "id": "tve-learning/pre_4_moving",
+                    "type": "radio",
+                    "prompt": "If the sampling distribution of the sample means were centered at a different location on the horizontal axis, what would be different?",
+                    "options": [
+                        "The variability of individual scores changes",
+                        "The sample size changes",
+                        "The observed sample mean changes",
+                        "The assumed population mean changes"
+                    ]
+                },
+                {
+                    "id": "tve-learning/pre_5_moving",
+                    "type": "radio",
+                    "prompt": "If the sampling distribution of sample means were centered at a different location such that the center of the distribution gets closer to 5.5, the likelihood of observing a sample mean of 5.5 from this sampling distribution ___________.",
+                    "options": [
+                        "Becomes more likely",
+                        "Becomes less likely",
+                        "Stays the same",
+                        "Cannot be determined"
+                    ]
+                },
+                {
+                    "id": "tve-learning/pre_5_Q211",
+                    "type": "longText",
+                    "prompt": "In your own words, what is a 95% confidence interval? What information does it provide?"
+                }
+            ]
+        },
+        "Pretest2": {
+            "type": "questionnaire",
+            "response": [
+                {
+                    "id": "tve-learning/Pre_6_CI_instructions",
+                    "type": "textOnly",
+                    "prompt": "Using sample mean = 4, standard error = 2, construct a 95% confidence interval using a z score of 1.96.\n\nYou do not have to do the calculation, just plug in the numbers in the equation."
+                },
+                {
+                    "id": "tve-learning/Pre_6_CI_lower_bound",
+                    "type": "shortText",
+                    "prompt": "Lower bound:"
+                },
+                {
+                    "id": "tve-learning/Pre_6_CI_upper_bound",
+                    "type": "shortText",
+                    "prompt": "Upper bound:"
+                },
+                {
+                    "id": "tve-learning/pre_7_CI",
+                    "type": "radio",
+                    "prompt": "What is the margin of error?",
+                    "options": [
+                        "The maximum difference between the sample mean and the population mean.",
+                        "The range of possible values for the population parameter.",
+                        "The amount added and subtracted from the sample statistic, usually based on the standard error and a critical value.",
+                        "The standard deviation of the sample data."
+                    ]
+                },
+                {
+                    "id": "tve-learning/pre_8_CI",
+                    "type": "radio",
+                    "prompt": "If we change our confidence level from 95% to 99%, how does the change affect the width of the confidence interval?",
+                    "options": [
+                        "The width of the CI will become wider",
+                        "The width of the CI will become narrower",
+                        "The width of the CI will not change"
+                    ]
+                },
+                {
+                    "id": "tve-learning/pre_9_CI",
+                    "type": "longText",
+                    "prompt": "In your own words, what is the “lower bound” of a confidence interval?"
+                },
+                {
+                    "id": "tve-learning/pre_10_CI",
+                    "type": "radio",
+                    "prompt": "A 95% confidence interval represents:",
+                    "options": [
+                        "The probability that the sample mean lies in this interval",
+                        "The range of sample means expected in 95% of samples",
+                        "A set of plausible population mean values based on the data",
+                        "The range where most data points fall"
+                    ]
+                }
+            ]
+        },
+        "Pre_Video_Intro": {
+            "type": "questionnaire",
+            "response": [
+                {
+                    "id": "tve-summer-learning/previd_intro",
+                    "type": "textOnly",
+                    "prompt": "Now, you will watch some instructional videos which prepare you to the key concepts. Please fullscreen for better viewing. Do not skip any part of the video, move back or rewatch. The option to advance the page will appear after the video ends."
+                }
+            ]
+        },
+        "Embodied_Pre_Video": {
+            "type": "video",
+            "instruction": "Now, you will watch some instructional videos which prepare you to the key concepts. Please fullscreen for better viewing. Do not skip any part of the video, move back or rewatch. The option to advance the page will appear after the video ends.",
+            "instructionLocation": "aboveStimulus",
+            "path": "tve-learning-summer/assets/pre1_embodied (720p).mp4",
+            "forceCompletion": true,
+            "response": []
+        },
+        "Embodied_Pre_Video2": {
+            "type": "video",
+            "path": "tve-learning-summer/assets/pre2_embodied (720p).mp4",
+            "forceCompletion": true,
+            "response": []
+        },
+        "Visual_Pre_Video":{
+             "type": "video",
+             "instruction": "Now, you will watch some instructional videos which prepare you to the key concepts. Please fullscreen for better viewing. Do not skip any part of the video, move back or rewatch. The option to advance the page will appear after the video ends.",
+             "instructionLocation": "aboveStimulus",
+             "path": "tve-learning-summer/assets/pre1_visual (720p).mp4",
+             "forceCompletion": true,
+             "response": []
+        },
+        "Visual_Pre_Video2": {
+            "type": "video",
+            "path": "tve-learning-summer/assets/pre2_visual (720p).mp4",
+            "forceCompletion": true,
+            "response": []
+        },
+        "Text_Pre_Video": {
+            "type": "video",
+            "instruction": "Now, you will watch some instructional videos which prepare you to the key concepts. Please fullscreen for better viewing. Do not skip any part of the video, move back or rewatch. The option to advance the page will appear after the video ends.",
+            "instructionLocation": "aboveStimulus",
+            "path": "tve-learning-summer/assets/pre1_text (720p).mp4",
+            "forceCompletion": true,
+            "response": []
+        },
+        "Text_Pre_Video2": {
+            "type": "video",
+            "path": "tve-learning-summer/assets/pre2_text (720p).mp4",
+            "forceCompletion": true,
+            "response": []
+        },
+        "Cognitive_load": {
+            "type": "questionnaire",
+            "response": [
+                {
+                    "id": "tve-learning/Post_Evaluation",
+                    "type": "matrix-radio",
+                    "prompt": "Now you have completed the first part of the instruction. Please indicate how much you agree or disagree with the following statements based on your experience (0 = Not at all the case, 10 = Completely the case):",
+                    "answerOptions": [
+                        "0","1","2","3","4","5","6","7","8","9","10"
+                    ],
+                    "questionOptions": [
+                        "The topics covered in the instruction were very very complex.",
+                        "The instruction covered concepts that I perceived as very complex.",
+                        "The complexity of the content in the instruction required me to invest a very high mental effort.",
+                        "The instructions and explanations during the activity were very unclear.",
+                        "The instructions and explanations were, in terms of learning, very ineffective.",
+                        "The instructions and explanations were full of unclear language.",
+                        "The instruction really enhanced my understanding of the topic(s) covered.",
+                        "The instruction really enhanced my knowledge and understanding of confidence intervals.",
+                        "The instruction really enhanced my understanding of the concepts and definitions related to confidence intervals."
+                    ]
+                }
+            ]
+        },
+        "Main_ExploreFirst":{
+            "type": "react-component",
+            "path": "tve-learning-summer/assets/ConfidenceApp.tsx",
+            "parameters": {
+                "pageId": "guided-95",
+                "taskId": "guided-confidence-95"
+            },
+            "response": [],
+            "recordAudio": true
+        },
+        "Main_ExploreFirst2": {
+            "type": "react-component",
+            "path": "tve-learning-summer/assets/ConfidenceApp.tsx",
+            "parameters": {
+                "pageId": "guided-95-2",
+                "taskId": "guided-confidence-95-2"
+            },
+            "response": [
+                {
+                    "id": "tve-learning/Q7",
+                    "type": "radio",
+                    "prompt": "Were you able to successfully find the lower and upper bond of the 95% confidence interval before you see the demonstration in Step 6 and 7? If no, please use the App below again to construct the 95% confidence interval correctly.\n\nHere's the link to the tutorial slides again:\nhttps://docs.google.com/presentation/d/1PyE9iHXErAeq5Q0PsHBxDDrcxcLkwmxTRa-_zIhx5KQ/edit?usp=sharing",
+                    "options":["No", "Yes"]
+                },
+                {
+                    "id": "tve-learning/Q9",
+                    "type": "radio",
+                    "prompt": "Do you now understand how to find a 95% confidence interval?",
+                    "options": [
+                        "Definitely not",
+                        "Probably not",
+                        "Might or might not",
+                        "Probably yes",
+                        "Definitely yes"
+                    ]
+                },
+                {
+                    "id": "tve-learning/Q10",
+                    "type": "radio",
+                    "prompt": "Based on the confidence interval, do you think the population mean is significantly different from 0?",
+                    "options": ["Yes", "No"]
+                }
+            ],
+            "recordAudio": true
+        },
+        "Main_ExploreFirst3": {
+            "type": "react-component",
+            "path": "tve-learning-summer/assets/ConfidenceApp.tsx",
+            "parameters": {
+                "pageId": "guided-99",
+                "taskId": "guided-confidence-99"
+            },
+            "response": [],
+            "recordAudio": true
+        },
+        "Main_ExploreFirst4":{
+            "type": "questionnaire",
+            "response": [
+                {
+                    "id": "tve-learning/Q15",
+                    "type": "textOnly",
+                    "prompt": "### Now, review steps 2 and 3.\n\n**Step 2:** Mark the lower bound of the **99% confidence interval**.\n\n![Step 2](tve-learning-summer/assets/guided-step-2.png)"
+                },
+                {
+                    "id": "tve-learning/Q16",
+                    "type": "textOnly",
+                    "prompt": "**Step 3:** Mark the upper bound of the **99% confidence interval**.\n\n![Step 3](tve-learning-summer/assets/guided-step-3.png)"
+                },
+                {
+                    "id": "tve-learning/Q17",
+                    "type": "radio",
+                    "prompt": "Were you able to successfully find the lower and upper bond of the 99% confidence interval before you see the demonstration in Step 2 and 3?",
+                    "options": ["No", "Yes"]
+                },
+                {
+                    "id": "tve-learning/Q18",
+                    "type": "radio",
+                    "prompt": "Is the 99% confidence wider or narrower than the 95% confidence interval?", 
+                    "options": [
+                        "Wider",
+                        "Narrower"
+                    ]
+                }
+            ],
+            "recordAudio": true
+        },
+        "Main_ExploreFirst5": {
+            "type": "video",
+            "instruction": "Next, you will watch an instructional video about how to calculate the confidence interval. Please fullscreen for better viewing. Do not skip any part of the video, move back or rewatch. The option to advance the page will appear after the video ends.",
+            "instructionLocation": "aboveStimulus",
+            "path": "tve-learning-summer/assets/main_embodied (720p).mp4",
+            "forceCompletion": true,
+            "response": []
+        },
+        "JOL1": {
+            "type": "questionnaire",
+            "response": [
+                {
+                    "id": "tve-learning-summer/jol1-concept_new",
+                    "type": "slider",
+                    "prompt": "What percent of the video content was new content to you? Give your best estimation.",
+                    "options": [
+                        { "label": "0", "value": 0 },
+                        { "label": "10", "value": 10 },
+                        { "label": "20", "value": 20 },
+                        { "label": "30", "value": 30 },
+                        { "label": "40", "value": 40 },
+                        { "label": "50", "value": 50 },
+                        { "label": "60", "value": 60 },
+                        { "label": "70", "value": 70 },
+                        { "label": "80", "value": 80 },
+                        { "label": "90", "value": 90 },
+                        { "label": "100", "value": 100 }
+                    ],
+                    "step": 1
+                },
+                {
+                    "id": "tve-learning-summer/jol1-understanding",
+                    "type": "slider",
+                    "prompt": "What percent of the video content did you understand? Give your best estimation.",
+                    "options": [
+                        { "label": "0", "value": 0 },
+                        { "label": "10", "value": 10 },
+                        { "label": "20", "value": 20 },
+                        { "label": "30", "value": 30 },
+                        { "label": "40", "value": 40 },
+                        { "label": "50", "value": 50 },
+                        { "label": "60", "value": 60 },
+                        { "label": "70", "value": 70 },
+                        { "label": "80", "value": 80 },
+                        { "label": "90", "value": 90 },
+                        { "label": "100", "value": 100 }
+                    ],
+                    "step": 1
+                }
+            ]
+        },
+        "Posttest1":{
+            "type": "questionnaire",
+            "response": [
+                {
+                    "id": "tve-learning-summer/Q162",
+                    "type": "textOnly",
+                    "prompt": "The next set of questions assesses your learning so far."
+                },
+                {
+                    "id": "tve-learning-summer/Post1_1",
+                    "type": "radio",
+                    "prompt": "What is a sampling distribution?",
+                    "options": [
+                        "The distribution of data values within a single sample.",
+                        "The distribution of all possible sample statistics (e.g., means) from repeated random samples of the same size from a population.",
+                        "The distribution of the population statistics (e.g., means) based on the sample statistic we observed.",
+                        "The distribution of errors that occur when sampling."
+                    ]
+                },
+                {
+                    "id": "tve-learning/Post1_2",
+                    "type": "checkbox",
+                    "prompt": "What does the shaded area represent in the sampling distribution below? **[Select ALL that apply]**\n\n![Sampling Distribution of the Mean](tve-learning-summer/assets/samplingDist.png)",
+                    "options": [
+                        "The probability that the population mean falls between 95 and 105.",
+                        "The probability that a sample mean will fall between 95 and 105.",
+                        "The sample means that are not unlikely to come from a population with a mean of 100.",
+                        "The sample means that are unlikely to come from a population with a mean of 100."
+                    ]
+                },
+                {
+                    "id": "tve-learning-summer/Post1_3",
+                    "type": "radio",
+                    "prompt": "Suppose the sampling distribution of sample means is centered at 3. What does that mean?",
+                    "options": [
+                        "Most students scored 3",
+                        "The sample size is 3",
+                        "The observed sample mean is 3",
+                        "The true population mean is assumed to be 3"
+                    ]
+                },
+                {
+                    "id": "tve-learning-summer/Post1_4",
+                    "type": "radio",
+                    "prompt": "If the sampling distribution of the sample means were centered at a different location on the horizontal axis, what would be different?",
+                    "options":[
+                        "The sample size changes",
+                        "The assumed population mean changes",
+                        "The observed sample mean changes",
+                        "The variability of individual scores changes"
+                    ]
+                },
+                {
+                    "id": "tve-learning-summer/Post1_5",
+                    "type": "radio",
+                    "prompt": "If the sampling distribution of sample means were centered at a different location such that the center of the distribution gets closer to 5.5, the likelihood of observing a sample mean of 5.5 from this sampling distribution ___________.",
+                    "options": [
+                        "Becomes more likely",
+                        "Becomes less likely",
+                        "Stays the same",
+                        "Cannot be determined"
+                    ]
+                },
+                {
+                    "id": "tve-learning-summer/Post1_6",
+                    "type": "longText",
+                    "prompt": "If you did think about the instructional video while answering the questions, what did you think about it specifically? Please elaborate."
+                }
+            ]
+        },
+        "Main_embodied": {
+            "type": "video",
+            "instruction": "Next, you will watch an instructional video about how to calculate the confidence interval. Please fullscreen for better viewing. Do not skip any part of the video, move back or rewatch. The option to advance the page will appear after the video ends.",
+            "path": "tve-learning-summer/assets/main_embodied (720p).mp4",
+            "forceCompletion": true,
+            "response": []
+        },
+        "Main_visual": {
+            "type": "video",
+            "instruction": "Next, you will watch an instructional video about how to calculate the confidence interval. Please fullscreen for better viewing. Do not skip any part of the video, move back or rewatch. The option to advance the page will appear after the video ends.",
+            "path": "tve-learning-summer/assets/main_visual (720p).mp4",
+            "forceCompletion": true,
+            "response": []
+        },
+        "Cognitive_load2":{
+            "type": "questionnaire",
+            "response": [
+                {
+                    "id": "tve-learning/Q202",
+                    "type": "matrix-radio",
+                    "prompt": "For the video you just watched, please indicate how much you agree or disagree with the following statements **(0 = Not at all the case, 10 = Completely the case):**",
+                    "answerOptions": ["0","1","2","3","4","5","6","7","8","9","10"],
+                    "questionOptions": [
+                        "The topics covered in the instruction were very complex.",
+                        "The instruction covered concepts that I perceived as very complex.",
+                        "The complexity of the content in the instruction required me to invest a very high mental effort.",
+                        "The instructions and explanations during the activity were very unclear.",
+                        "The instructions and explanations were, in terms of learning, very ineffective.",
+                        "The instructions and explanations were full of unclear language.",
+                        "The instruction really enhanced my understanding of the topic(s) covered.",
+                        "The instruction really enhanced my knowledge and understanding of confidence intervals.",
+                        "The instruction really enhanced my understanding of the concepts and definitions related to confidence intervals."
+                    ]
+                }
+            ]
+        },
+        "JOL2": {
+            "type": "questionnaire",
+            "response": [
+                {
+                    "id": "tve-learning-summer/Q213",
+                    "type": "slider",
+                    "prompt": "What percent of the video content was new content to you? Give your best estimation.",
+                    "options": [
+                        { "label": "0", "value": 0 },
+                        { "label": "10", "value": 10 },
+                        { "label": "20", "value": 20 },
+                        { "label": "30", "value": 30 },
+                        { "label": "40", "value": 40 },
+                        { "label": "50", "value": 50 },
+                        { "label": "60", "value": 60 },
+                        { "label": "70", "value": 70 },
+                        { "label": "80", "value": 80 },
+                        { "label": "90", "value": 90 },
+                        { "label": "100", "value": 100 }
+                    ],
+                    "step": 1,
+                    "startingValue": 50
+                },
+                {
+                    "id": "tve-learning-summer/Q214",
+                    "type": "slider",
+                    "prompt": "What percent of the video content did you understand? Give your best estimation.",
+                    "options": [
+                        { "label": "0", "value": 0 },
+                        { "label": "10", "value": 10 },
+                        { "label": "20", "value": 20 },
+                        { "label": "30", "value": 30 },
+                        { "label": "40", "value": 40 },
+                        { "label": "50", "value": 50 },
+                        { "label": "60", "value": 60 },
+                        { "label": "70", "value": 70 },
+                        { "label": "80", "value": 80 },
+                        { "label": "90", "value": 90 },
+                        { "label": "100", "value": 100 }
+                    ],
+                    "step": 1,
+                    "startingValue": 50
+                },
+                {
+                    "id": "tve-learning-summer/engagement",
+                    "type": "matrix-radio",
+                    "prompt": "Please indicate how much you agree or disagree with the following statements (1 = Strongly Disagree, 7 = Strongly Agree):",
+                    "answerOptions": ["Strongly disagree", "Disagree", "Somewhat disagree", "Neither agree nor disagree", "Somewhat agree", "Agree", "Strongly agree"],
+                    "questionOptions": [
+                        "I was fully attentive while watching the video.",
+                        "I found myself making connections between the video and what I already know.",
+                        "At times, I lost focus or my mind wandered"
+                    ]
+                }
+            ]
+        },
+        "Assessment_intro": {
+            "type": "questionnaire",
+            "response": [
+                {
+                    "id": "tve-learning-summer/assessment-intro",
+                    "type": "textOnly",
+                    "prompt": "The next set of questions assesses your learning of the content taught."
+                }
+            ]
+        },
+        "Posttest2": {
+            "type": "questionnaire",
+            "response": [
+                {
+                    "id": "tve-learning-summer/Post2_1lower",
+                    "type": "shortText",
+                    "prompt": "Using sample mean = 4, standard error = 2, construct a 95% confidence interval using a z score of 1.96.\nYou do not have to do the calculation, just plug in the numbers in the equation.\n\nLower bound:"
+                },
+                {
+                    "id": "tve-learning-summer/Post2_1upper",
+                    "type": "shortText",
+                    "prompt": "Upper bound:"
+                },
+                {
+                    "id": "tve-learning-summer/Post2_2",
+                    "type": "longText",
+                    "prompt": "Suppose you construct a 95% confidence interval from your sample. What does “95% confidence” mean in your own words?"
+                },
+                {
+                    "id": "tve-learning-summer/Post2_3",
+                    "type": "radio",
+                    "prompt": "If we change our confidence level from 95% to 99%, how does the change affect the width of the confidence interval?",
+                    "options": [
+                        "The width of the CI will become wider",
+                        "The width of the CI will become narrower",
+                        "The width of the CI will not change"
+                    ]
+                },
+                {
+                    "id": "tve-learning-summer/Post2_4",
+                    "type": "longText",
+                    "prompt": "In your own words, what is the “lower bound” of a confidence interval?"
+                },
+                {
+                    "id": "tve-learning-summer/Post2_4_b",
+                    "type": "radio",
+                    "prompt": "A 95% confidence interval represents:",
+                    "options": [
+                        "The probability that the sample mean lies in this interval",
+                        "The range of sample means expected in 95% of samples",
+                        "A set of plausible population mean values based on the data",
+                        "The range where most data points fall"
+                    ]
+                }
+            ]
+        },
+        "Posttest2_b": {
+            "type": "questionnaire",
+            "response": [
+                {
+                    "id": "tve-learning-summer/Post2_5",
+                    "type": "textOnly",
+                    "prompt": "In each sampling distribution below, the middle 95% of possible sample means (denoted as b1) are shaded differently than the two tails. The purple dot represents the observed sample mean (b1). Answer the next four questions."
+                },
+                {
+                    "id": "tve-learning-summer/Post2_6_a",
+                    "type": "radio",
+                    "prompt": "a) What do the two vertical lines at the peaks of the distributions represent? ![Peaks of vertical lines](tve-learning-summer/assets/vertLinePeaks.png)",
+                    "options": [
+                        "The population parameters",
+                        "The sample statistics",
+                        "The standard errors",
+                        "The margin of errors"
+                    ]
+                },
+                {
+                    "id": "tve-learning-summer/Post2_6b",
+                    "type": "longText",
+                    "prompt": "b) Below we label the distances as A and B. A student says that it is possible for A and B to have different lengths. Do you agree or disagree? Explain your reasoning. ![Distance of A and B](tve-learning-summer/assets/ABDist.png)"
+                },
+                {
+                    "id": "tve-learning-summer/Post2_6c",
+                    "type": "radio",
+                    "prompt": "c) What determines the length of B in the graph above?",
+                    "options": [
+                        "The population parameter",
+                        "The sample statistics",
+                        "The standard error and confidence level",
+                        "The number of samples collected"
+                    ]
+                },
+                {
+                    "id": "tve-learning-summer/Post2_d",
+                    "type": "radio",
+                    "prompt": "Where is the lower bound of the confidence interval shown in the graph below? ![What is the lower confidence bound](tve-learning-summer/assets/lowerCI.png)",
+                    "options": [
+                        "A", "B", "C", "D"
+                    ]
+                }
+            ]
+        },
+        "TransferIntro":{
+            "type": "questionnaire",
+            "response":[
+                {
+                    "id": "tve-learning-summer/transfer_intro",
+                    "type": "textOnly",
+                    "prompt": "The questions in the next section cover concepts that have not yet been formally taught in this course. Please use what you have learned so far in this class to attempt these more challenging questions. Even if you are unsure of your answer, we encourage you to make your best attempt based on your current understanding."
+                }
+            ]
+        },
+        "Transfer1": {
+            "type": "questionnaire",
+            "response": [
+                {
+                    "id": "tve-learning-summer/transfer_1",
+                    "type": "textOnly",
+                    "prompt": "1. A researcher draws a sample from a city and calculates a 95% confidence interval based on the sample. The 95% confidence interval for the mean income of people in a city is [$45,000, $55,000]."
+                },
+                {
+                    "id": "tve-learning-summer/transfer_1_a",
+                    "type": "radio",
+                    "prompt": "a. A student says: “Based on this sample, there is a 95% chance that the true population mean lies between $45,000 and $55,000.”\n\nIs this interpretation correct or not?",
+                    "options": [
+                        "Correct", "Incorrect"
+                    ]
+                },
+                {
+                    "id": "tve-learning-summer/transfer_1_a_i",
+                    "type": "longText",
+                    "prompt": "a-i. Explain your reasoning to the previous question."
+                },
+                {
+                    "id": "tve-learning-summer/transfer_1_b",
+                    "type": "longText",
+                    "prompt": "b. Is $40,000 a plausible value for the population mean of income based on this confidence interval?\nExplain your reasoning."
+                },
+                {
+                    "id": "tve-learning-summer/transfer_1_c",
+                    "type": "radio",
+                    "prompt": "c. Instead of using a confidence level of 95%, the researchers decided to use a confidence level of 90% , what happens with this change?",
+                    "options": [
+                        "The confidence interval gets wider",
+                        "The confidence interval gets narrower",
+                        "The confidence interval will not change",
+                        "I’m not sure"
+                    ]
+                },
+                {
+                    "id": "tve-learning-summer/transfer_1_c_i",
+                    "type": "longText",
+                    "prompt": "c-i. Explain your reasoning to the previous question."
+                },
+                {
+                    "id": "tve-learning-summer/transfer_1_d",
+                    "type": "radio",
+                    "prompt": "d. In order to construct a 90% confidence interval, would the researcher use a z score that is larger than 1.96 or smaller than 1.96?",
+                    "options": [
+                        "Larger", "Smaller"
+                    ]
+                },
+                {
+                    "id": "tve-learning-summer/transfer_1_d_i",
+                    "type": "longText",
+                    "prompt": "d-i. Explain your reasoning to the previous question."
+                }
+            ]
+        },
+        "Transfer2":{
+            "type": "questionnaire",
+            "response": [
+                {
+                    "id": "tve-learning-summer/transfer_2_intro",
+                    "type": "textOnly",
+                    "prompt": "2. A researcher collects a random sample of 64 students and finds a sample mean study time of 12 hours per week. The 95% confidence interval is [10, 14]."
+                },
+                {
+                    "id": "tve-learning-summer/transfer_2_a",
+                    "type": "longText",
+                    "prompt": "a. Interpret this 95% confidence interval."
+                },
+                {
+                    "id": "tve-learning-summer/transfer_2_b",
+                    "type": "longText",
+                    "prompt": "b. What is the margin of error for this confidence interval? "
+                },
+                {
+                    "id": "tve-learning-summer/transfer_2_c",
+                    "type": "radio",
+                    "prompt": "c. Suppose the researcher collects a larger sample of students, resulting in a standard error that is half as large as before. Keeping the confidence level to 95%, would the new confidence interval be wider or narrower than [10, 14]?",
+                    "options": [
+                        "The new confidence interval will be wider than [10, 14]",
+                        "The new confidence interval will be narrower than [10, 14]",
+                        "There is not enough information to make this judgement"
+                    ]
+                },
+                {
+                    "id": "tve-learning-summer/transfer_2_c_i",
+                    "type": "longText",
+                    "prompt": "c-i. Explain your reasoning to the previous question."
+                },
+                {
+                    "id": "tve-learning-summer/transfer_2_d_text",
+                    "type": "textOnly",
+                    "prompt": "d. Write down the new confidence interval given the updated standard error."
+                },
+                {
+                    "id": "tve-learning-summer/transfer_2_d_lower",
+                    "type": "shortText",
+                    "prompt": "Lower Bound:"
+                },
+                {
+                    "id": "tve-learning-summer/transfer_2_d_upper",
+                    "type": "shortText",
+                    "prompt": "Upper Bound:"
+                }
+            ]
+        },
+        "Transfer3":{
+            "type": "react-component",
+            "path": "tve-learning-summer/assets/ConfidenceApp.tsx",
+            "parameters": {
+                "pageId": "transfer-3",
+                "taskId" : "transfer-3"
+            },
+            "response": [],
+            "recordAudio": true
+        },
+        "Debrief": {
+            "type": "questionnaire",
+            "response": [
+                {
+                    "id": "tve-learning-summer/debrief_q146",
+                    "type": "radio",
+                    "prompt": "You've completed all learning questions. For the last part, please answer some questions to reflect on your learning and problem-solving.\n\nWhen you were answering the questions, how often did you think about the video you watched?",
+                    "options": [
+                        "Never",
+                        "Occasionally",
+                        "About half of the time",
+                        "Most of the time",
+                        "All of the time"
+                    ]
+                },
+                {
+                    "id": "tve-learning-summer/debrief_q147",
+                    "type": "longText",
+                    "prompt": "If you did think about the instructional video while answering the questions, what did you think about it specifically? Please elaborate."
+                },
+                {
+                    "id": "tve-learning-summer/debrief_q210",
+                    "type": "radio",
+                    "prompt": "Are you interested in having a homework assignment like this type in the future?",
+                    "options": [
+                        "Yes",
+                        "No",
+                        "I'm indifferent"
+                    ]
+                },
+                {
+                    "id": "tve-learning-summer/debrief_q151",
+                    "type": "longText",
+                    "prompt": "Were you distracted while answering the questions? Did you experience any technical difficulties?"
+                },
+                {
+                    "id": "tve-learning-summer/debrief_end",
+                    "type": "textOnly",
+                    "prompt": "You have reached the end of the study. Thank you for your participation! [Click next to submit]\n\nIn this study, we, a research team from the Educational Psychology Department at UW-Madison (see our lab info here: http://www.icyzhang.com/bk_28250304.html), are interested in understanding how to better teach difficult statistics concepts such as the confidence interval.\n\nThis is 2 x 3 experiment, and you were randomly assigned to one of the six conditions. We hypothesized that the embodied videos might be beneficial only if students have embodied prior knowledge.\n\nHere, we provide the link to the main intervention videos. Feel free to take a look if you are interested in what the other group sees.\n\nEmbodied: https://vimeo.com/1180350861\n\nStatic visual: https://vimeo.com/1180352988\n\nIf you have any questions about this study or want to get involved with educational psychology research related to statistics and data science education, please contact Dr. Icy Zhang at icy.zhang@wisc.edu"
+                }
+            ]
+        }
+    },
+    "importedLibraries": [
+        "mic-check"
+    ],
+"sequence": {
+  "order": "fixed",
+  "components": [
+    "Consent",
+    "Consent2",
+    "Pretest_intro",
+    "Pretest",
+    "Pretest2",
+    "Pre_Video_Intro",
+
+    {
+      "id": "pre-video-randomizer",
+      "order": "latinSquare",
+      "numSamples": 1,
+      "components": [
+        {
+          "id": "embodied-pre-video-condition",
+          "order": "fixed",
+          "components": [
+            "Embodied_Pre_Video",
+            "Embodied_Pre_Video2"
+          ]
+        },
+        {
+          "id": "visual-pre-video-condition",
+          "order": "fixed",
+          "components": [
+            "Visual_Pre_Video",
+            "Visual_Pre_Video2"
+          ]
+        },
+        {
+          "id": "text-pre-video-condition",
+          "order": "fixed",
+          "components": [
+            "Text_Pre_Video",
+            "Text_Pre_Video2"
+          ]
+        }
+      ]
+    },
+
+    "Cognitive_load",
+
+    "JOL1",
+    "Posttest1",
+
+    {
+      "id": "main-material-randomizer",
+      "order": "latinSquare",
+      "numSamples": 1,
+      "components": [
+        {
+          "id": "main-embodied-condition",
+          "order": "fixed",
+          "components": [
+            "Main_embodied"
+          ]
+        },
+        {
+          "id": "main-visual-condition",
+          "order": "fixed",
+          "components": [
+            "Main_visual"
+          ]
+        },
+        {
+          "id": "main-explorer-condition",
+          "order": "fixed",
+          "components": [
+            "Main_ExploreFirst",
+            "Main_ExploreFirst2",
+            "Main_ExploreFirst3",
+            "Main_ExploreFirst4",
+            "Main_ExploreFirst5"
+          ]
+        }
+      ]
+    },
+
+    "Cognitive_load2",
+    "JOL2",
+    "Assessment_intro",
+    "Posttest2",
+    "Posttest2_b",
+    "TransferIntro",
+    "Transfer1",
+    "Transfer2",
+    "Transfer3",
+    "Debrief"
+  ]
+}
+}
