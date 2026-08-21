@@ -56,7 +56,9 @@
     "test-randomization",
     "test-component-timeout",
     "test-skip-logic",
-    "test-step-logic"
+    "test-step-logic",
+    "tve-learning-summer",
+    "learn-stats-ds-video"
   ],
   "configs": {
     "tutorial": {
@@ -256,6 +258,14 @@
     "example-VLAT-adaptive": {
       "path": "example-VLAT-adaptive/config.json",
       "test": true
+    },
+    "tve-learning-summer": {
+      "path": "tve-learning-summer/config.json",
+      "test": false
+    },
+    "learn-stats-ds-video": {
+      "path": "learn-stats-ds-video/config.json",
+      "test": false
     }
   }
 }

@@ -1,0 +1,985 @@
+
+{  
+    "$schema": "https://raw.githubusercontent.com/revisit-studies/study/v2.1.1/src/parser/StudyConfigSchema.json",
+    "studyMetadata": {
+        "title": "Learning Statistics and Data Science from Video",
+        "version": "pilot",
+        "authors": [
+            "Research Team"
+        ],
+        "date": "2026-06-03",
+        "description": "",
+        "organizations": [
+            "WPI"
+        ]
+  },
+    "uiConfig": {
+        "contactEmail": "contact@revisit.dev",
+        "helpTextPath": "demo-image/assets/help.md",
+        "logoPath": "revisitAssets/revisitLogoSquare.svg",
+        "withProgressBar": true,
+        "autoDownloadStudy": false,
+        "withSidebar": false,
+        "nextOnEnter": true,
+        "recordAudio": true
+    },
+    "components": {
+        "Consent": {
+          "type": "markdown",
+          "path": "learn-stats-ds-video/assets/consent.md",
+          "response": []
+        },
+        "Demographics":{
+          "type": "questionnaire",
+          "response": [
+            {
+              "id": "stats-datasci-study/thank-you",
+              "type": "textOnly",
+              "prompt": "Thank you for participating the study! Now, we will collect some basic information."
+            },
+            {
+              "id": "stats-datasci-study/first-name",
+              "prompt": "What is your first name? (This information will only be used for the purpose of distributing your extra credit.)",
+              "type": "shortText"
+            },
+            {
+              "id": "stats-datasci-study/last-name",
+              "prompt": "What is your last name? (This information will only be used for the purpose of distributing your extra credit.)",
+              "type": "shortText"
+            },
+            {
+              "id": "stats-datasci-study/id",
+              "prompt": "What is your 9 digit ID number without dashes? (This information will only be used for the purpose of distributing your extra credit.)",
+              "type": "shortText"
+            },
+            {
+              "id": "stats-datasci-study/gender",
+              "prompt": "What is your gender?",
+              "type": "radio",
+              "options": [
+                "Women",
+                "Men",
+                "Non binary",
+                "Other (please specify)",
+                "Prefer not to say"
+              ]
+            },
+            {
+              "id": "stats-datasci-study/race",
+              "prompt": "What is your race?",
+              "type": "radio",
+              "options": [
+                "American Indian or Alaska Native",
+                "Asian",
+                "Black or African American",
+                "Native Hawaiian or Other Pacific Islander",
+                "White",
+                "Hispanic",
+                "Other (please specify)",
+                "Prefer not to say"
+              ]
+            },
+            {
+              "id": "stats-datasci-study/college-year",
+              "prompt": "What year of college are you in?",
+              "type": "radio",
+              "options": [
+                "First year",
+                "Second year",
+                "Third year",
+                "Fourth year"
+              ]
+            },
+            {
+              "id": "stats-datasci-study/number-stats-course",
+              "prompt": "How many college-level statistics courses have you taken before taking this class?",
+              "type": "radio",
+              "options": [
+                "0",
+                "1",
+                "2",
+                "3 or more"
+              ]
+            }
+          ]
+        },
+        "Pretest_1": {
+          "type": "questionnaire",
+          "response": [
+            {
+              "id": "stats-datasci-study/pre_instruction",
+              "type": "textOnly",
+              "prompt": "The next set of questions tests your knowledge about the confidence interval, which is covered in Chapter 12. Try to give your best guess and reasoning if you are unsure about a question."
+            },
+            {
+              "id": "stats-datasci-study/pre_1",
+              "prompt" : "Q1. What is a sampling distribution?",
+              "type": "radio",
+              "options": [
+                "The distribution of data values within a single sample.",
+                "The distribution of all possible sample statistics (e.g., means) from repeated random samples of the same size from a population.",
+                "The distribution of the population statistics (e.g., means) based on the sample statistic we observed.",
+                "The distribution of errors that occur when sampling."
+              ]
+            },
+            {
+              "id": "stats-datasci-study/pre_2",
+              "prompt" : "Q2. In your own words, what is a confidence interval?",
+              "type": "longText"
+            },
+            {
+              "id": "stats-datasci-study/pre_3",
+              "prompt" : "Q3. What is the margin of error?",
+              "type": "radio",
+              "options": [
+                "The maximum difference between the sample mean and the population mean.",
+                "The range of possible values for the population parameter.",
+                "The amount added and subtracted from the sample statistic, usually based on the standard error and a critical value.",
+                "The standard deviation of the sample data."
+              ]
+            },
+            {
+              "id": "stats-datasci-study/pre_4",
+              "prompt" : "Q4. Explain in your own words, what is the difference between a 95% cofidence interval and a 99% confidence interval.",
+              "type": "longText"
+            }
+          ]
+        },
+        "Pretest_2": {
+          "type": "questionnaire",
+          "response": [
+                        {
+              "id": "stats-datasci-study/pre_5",
+              "prompt" : "Q5. A teacher wants to estimate the average number of hours per week that college students spend studying. She randomly selects 100 students, and their average study time is 20 hours per week with a sample standard deviation of 10 hours. \n\n a) Which of the following is the correct calculation of the lower bond of the 95% confidence interval",
+              "type": "radio",
+              "options": [
+                "20 - 10",
+                "20 - 10/sqrt(100)",
+                "20 - 1.96 * 10/sqrt(100)",
+                "20 + 1.96 * 10/sqrt(100)"
+              ]
+            },
+            {
+              "id": "stats-datasci-study/pre_6",
+              "prompt" : "b) The teacher instead wants to construct a 90% confidence interval, \n\ni) Compared to that of the 95% confidence interval, what happens to the margin of error for the 90% confidence interval?",
+              "type": "radio",
+              "options": [
+                "The margin of error of the 90% confidence interval will be larger.",
+                "The margin of error of the 90% confidence interval will be smaller.",
+                "The margin of error will not change."
+              ]
+            },
+            {
+              "id": "stats-datasci-study/pre_7",
+              "prompt" : "ii) Compared to that of the 95% confidence interval, what happens to the 90% confidence interval?",
+              "type": "radio",
+              "options": [
+                "The 90% confidence interval will be larger.",
+                "The 90% confidence interval will be smaller.",
+                "The 90% confidence interval will not change."
+              ]
+            }
+          ]
+        },
+        "Pretest_3": {
+          "type": "questionnaire",
+          "response": [
+            {
+              "id": "stats-datasci-study/pre_8",
+              "prompt" : "Q6. A researcher collects a random sample of 80 students from a university (40 students are freshmen and 40 students are seniors). \n\nThe researcher investigated whether freshmen and seniors differ in their anxiety scores.\nlm(anxiety_score~college_year, data = collegedata)\n\nThe estimated b₁ from the sample is 1.2, indicating that, on average, seniors score 1.2 points higher in anxiety than freshmen.\n\nThe 95% confidence interval for β₁ is [0.2, 2.2]. \n\na) Based on this confidence interval, do you think freshmen and seniors differ in their average anxiety levels (i.e., would you reject the empty model)? Explain your reasoning.",
+              "type": "longText"
+            },
+            {
+              "id": "stats-datasci-study/pre_9",
+              "prompt" : "b) Which of the following is the correct interpretation of the confidence interval [0.2, 2.2]?",
+              "type": "radio",
+              "options": [
+                "There is a 95% chance the true mean difference between freshmen and seniors lies between 0.2 and 2.2.",
+                "95% of students have an anxiety score between 0.2 and 2.2.",
+                "If we repeated this study many times, 95% of such intervals would contain the true mean difference between freshmen and seniors.",
+                "The population mean difference is guaranteed to be between 0.2 and 2.2."
+              ]
+            }
+          ]
+        },
+        "Motivation": {
+          "type": "questionnaire",
+          "response": [
+            {
+              "id": "confidence-interval-motivation",
+              "type": "matrix-radio",
+              "prompt": "Please indicate your level of agreement with the following statement (1 = strongly Disagree, 7 = Strongly Agree):",
+              "answerOptions": ["strongly disagree", "disagree", "somewhat disagree", "neither agree nor disagree", "somewhat agree", "agree", "strongly agree"],
+              "questionOptions": [
+                "In this activity about learning the confidence interval, I want to learn as much as possible.",
+                "In this activity about learning the confidence interval, it's important for me to understand the content as thoroughly as possible.",
+                "In this activity about learning the confidence interval, I desire to completely master the material presented."
+              ]
+            }
+          ]
+        },
+        "Self-exploration1": {
+          "type": "react-component",
+          "path": "learn-stats-ds-video/assets/ConfidenceApp.tsx",
+          "parameters": {
+            "pageId": "guided-95",
+            "taskId": "guided-confidence-95"
+          },
+          "response": [
+            {
+              "id": "guided_exploration_95_lower_bound",
+              "prompt": "95% confidence interval lower bound",
+              "type": "reactive",
+              "hidden": true
+            },
+            {
+              "id": "guided_exploration_95_upper_bound",
+              "prompt": "95% confidence interval upper bound",
+              "type": "reactive",
+              "hidden": true
+            }
+          ]
+        },
+        "Self-exploration1-2": {
+          "type": "react-component",
+          "path": "learn-stats-ds-video/assets/ConfidenceApp.tsx",
+          "parameters": {
+            "pageId": "guided-95-2",
+            "taskId": "guided-confidence-95-2",
+            "lowerAnswerId": "guided_exploration_95_2_lower_bound",
+            "upperAnswerId": "guided_exploration_95_2_upper_bound"
+          },
+          "response": [
+            {
+              "id": "guided_exploration_95_2_lower_bound",
+              "prompt": "95% confidence interval revised lower bound",
+              "type": "reactive",
+              "hidden": true
+            },
+            {
+              "id": "guided_exploration_95_2_upper_bound",
+              "prompt": "95% confidence interval revised upper bound",
+              "type": "reactive",
+              "hidden": true
+            }
+          ]
+        },
+        "Self-exploration2": {
+          "type": "questionnaire",
+          "response": [
+            {
+              "id": "stats-datasci-study/SE1",
+              "prompt": "Were you able to successfully find the lower and upper bond of the 95% confidence interval before you see the demonstration in Step 6 and 7?",
+              "type": "radio",
+              "options": [
+                "Yes",
+                "No"
+              ]
+            },
+            {
+              "id": "stats-datasci-study/SE2",
+              "prompt" : "After seeing the demonstration in Step 6 and 7, do you now understand how to find a 95% confidence interval?",
+              "type": "radio",
+              "options": [
+                "Definitely not",
+                "Probably not",
+                "Might or might not",
+                "Probably yes",
+                "Definitely yes"
+              ]
+            },
+            {
+              "id": "stats-datasci-study/SE3",
+              "prompt" : "Based on the confidence interval, do you think the movie’s rating is significantly different from 0?",
+              "type": "radio",
+              "options": [
+                "Yes",
+                "No"
+              ]
+            }
+          ]
+        },
+        "Self-exploration3":{
+          "type": "react-component",
+          "path": "learn-stats-ds-video/assets/ConfidenceApp.tsx",
+          "parameters": {
+            "pageId": "guided-99",
+            "taskId": "guided-confidence-99",
+            "lowerAnswerId": "guided_exploration_99_lower_bound",
+            "upperAnswerId": "guided_exploration_99_upper_bound"
+          },
+          "response": [
+            {
+              "id": "guided_exploration_99_lower_bound",
+              "prompt": "99% confidence interval lower bound",
+              "type": "reactive",
+              "hidden": true
+            },
+            {
+              "id": "guided_exploration_99_upper_bound",
+              "prompt": "99% confidence interval upper bound",
+              "type": "reactive",
+              "hidden": true
+            }
+          ]
+        },
+        "Self-exploration3-2":{
+          "type": "react-component",
+          "path": "learn-stats-ds-video/assets/ConfidenceApp.tsx",
+          "parameters": {
+            "pageId": "guided-99-2",
+            "taskId": "guided-confidence-99-2",
+            "lowerAnswerId": "guided_exploration_99_2_lower_bound",
+            "upperAnswerId": "guided_exploration_99_2_upper_bound"
+          },
+          "response": [
+            {
+              "id": "guided_exploration_99_2_lower_bound",
+              "prompt": "99% confidence interval revised lower bound",
+              "type": "reactive",
+              "hidden": true
+            },
+            {
+              "id": "guided_exploration_99_2_upper_bound",
+              "prompt": "99% confidence interval revised upper bound",
+              "type": "reactive",
+              "hidden": true
+            }
+          ]
+        },
+        "Self-exploration4": {
+          "type": "questionnaire",
+          "response": [
+            {
+              "id": "stats-datasci-study/SE4",
+              "prompt" : "Were you able to successfully find the lower and upper bond of the 99% confidence interval before you see the demonstration in Step 3 and 4?",
+              "type": "radio",
+              "options": [
+                "Yes",
+                "No"
+              ]
+            },
+            {
+              "id": "stats-datasci-study/SE5",
+              "prompt" : "Is the 99% confidence wider or narrower than the 95% confidence interval?",
+              "type": "radio",
+              "options": [
+                "Wider",
+                "Narrower"
+              ]
+            }
+          ]
+        },
+        "Embodied_video_intro": {
+          "type": "markdown",
+          "path": "learn-stats-ds-video/assets/video_intro.md",
+          "response": []
+        },
+        "Embodied_video_instructions": {
+          "type": "questionnaire",
+          "response" : [
+            {
+              "id": "stats-datasci-study/Q53",
+              "type": "textOnly",
+              "prompt" : "Suppose we want to estimate a population parameter, such as the average happiness level in a country. A common approach is to draw a sample and compute the mean of the sample, which serves as our point estimate of the population mean. However, because we usually have access to only one sample, this single estimate does not capture the uncertainty inherent in sampling. To address this, we construct a confidence interval (CI)—a range of plausible values for the population parameter of interest, derived from our observed sample data."
+            },
+            {
+              "id": "stats-datasci-study/Q54",
+              "type": "textOnly",
+              "prompt" : "Next, you will watch 3 instructional videos about the confidence interval. Feel free to fullscreen for better viewing. Do not skip any part of the video, move back or rewatch. The option to advance the page will appear after each video ends."
+            }
+          ]
+        },
+        "Video1": {
+          "type": "video",
+          "instruction": "Video 1 is around 2.5 minutes. Full screen for better viewing.",
+          "path": "learn-stats-ds-video/assets/embodied-video3-ai (540p).mp4",
+          "forceCompletion": true,
+          "response": []
+        },
+        "Video2": {
+          "type": "video",
+          "instruction": "Video 2 is around 2 minutes. Full screen for better viewing.",
+          "path": "learn-stats-ds-video/assets/embodied-video4-ai (540p).mp4",
+          "forceCompletion": true,
+          "response": []
+        },
+        "Video3": {
+          "type": "video",
+          "instruction": "Video 3 is around 2.5 minutes. Full screen for better viewing.",
+          "path": "learn-stats-ds-video/assets/embodied-video5-ai (540p).mp4",
+          "forceCompletion": true,
+          "response": []
+        },
+        "Video_engagement": {
+          "type": "questionnaire",
+          "response": [
+            {
+              "id": "stats-datasci-study/vid_engagement",
+              "type": "matrix-radio",
+              "prompt": "Please indicate your level of agreement with the following statement (1 = strongly Disagree, 7 = Strongly Agree):",
+              "answerOptions": ["strongly disagree", "disagree", "somewhat disagree", "neither agree nor disagree", "somewhat agree", "agree", "strongly agree"],
+              "questionOptions": [
+                "I was fully attentive while watching the video.",
+                "I found myself making connections between the video and what I already know.",
+                "At times, I lost focus or my mind wandered",
+                "I had a hard time keeping my mind on the video content"
+              ]
+            }
+          ]
+        },
+        "Control_instructions":{
+          "type": "markdown",
+          "path": "learn-stats-ds-video/assets/cl_instruction.md",
+          "response": []
+        },
+        "Control_intro": {
+          "type": "questionnaire",
+          "response": [
+            {
+              "id": "stats-datasci-study/cl_intro",
+              "type": "textOnly",
+              "prompt" : "Suppose we want to estimate a population parameter, such as the average happiness level in a country. A common approach is to draw a sample and compute the mean of the sample, which serves as our point estimate of the population mean. However, because we usually have access to only one sample, this single estimate does not capture the uncertainty inherent in sampling. To address this, we construct a confidence interval (CI)—a range of plausible values for the population parameter of interest, derived from our observed sample data."
+              
+            },
+            {
+              "id": "stats-datasci-study/cl_intro2",
+              "type": "textOnly",
+              "prompt" : "Next, you will watch 3 instructional videos about the confidence interval. Feel free to fullscreen for better viewing. Do not skip any part of the video, move back or rewatch. The option to advance the page will appear after each video ends."
+              
+            }
+          ]
+        },
+        "Control_Video1": {
+          "type": "video",
+          "instruction": "Video 1 is around 2.5 minutes. Full screen for better viewing.",
+          "path": "learn-stats-ds-video/assets/control-video3-ai (480p).mp4",
+          "forceCompletion": true,
+          "response": []
+        },
+        "Control_Video2": {
+          "type": "video",
+          "instruction": "Video 2 is around 2 minutes. Full screen for better viewing.",
+          "path": "learn-stats-ds-video/assets/control-video4-ai (480p).mp4",
+          "forceCompletion": true,
+          "response": []
+        },
+        "Control_Video3": {
+          "type": "video",
+          "instruction": "Video 3 is around 2 minutes. Full screen for better viewing.",
+          "path": "learn-stats-ds-video/assets/control-video5-ai (540p).mp4",
+          "forceCompletion": true,
+          "response": []
+        },
+        "Cognitive_load": {
+          "type": "questionnaire",
+          "response": [
+            {
+              "id": "stats-datasci-study/cog_load",
+              "type": "matrix-radio",
+              "prompt": "All of the following questions refer to the activity (video and guided self-exploration of the confidence interval app) that just finished. Please respond to each of the questions on the following scale (0 meaning not at all the case and 10 meaning completely the case).",
+              "answerOptions": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+              "questionOptions": [
+                "The topics covered in the activity were very complex.",
+                "The activity covered formulas that I perceived as very complex.",
+                "The activity covered concepts and definitions that I perceived as very complex.",
+                "The instructions and explanations during the activity were very unclear.",
+                "The instructions and explanations were, in terms of learning, very ineffective.",
+                "The instructions and explanations were full of unclear language.",
+                "The activity really enhanced my understanding of the topic(s) covered.",
+                "The activity really enhanced my knowledge and understanding of statistics.",
+                "The activity really enhanced my understanding of the formulas covered.",
+                "The activity really enhanced my understanding of concepts and definitions."
+              ]
+            }
+          ]
+        },
+        "Posttest_intro": {
+          "type": "questionnaire",
+          "response": [
+            {
+              "id": "stats-datasci-study/post_intro",
+              "type": "textOnly",
+              "prompt": "The next set of questions assesses your learning of the content taught so far. If you are not sure about the answer to one question, please still try to give your best reasoning."
+            }
+          ]
+        },
+        "Posttest1": {
+          "type": "questionnaire",
+          "response": [
+            {
+              "id": "stats-datasci-study/post_1",
+              "prompt" : "Q1. What is a sampling distribution?",
+              "type": "radio",
+              "options": [
+                "The distribution of data values within a single sample.",
+                "The distribution of all possible sample statistics (e.g., means) from repeated random samples of the same size from a population.",
+                "The distribution of the population statistics (e.g., means) based on the sample statistic we observed.",
+                "The distribution of errors that occur when sampling."
+              ]
+            },
+            {
+              "id": "stats-datasci-study/post_2",
+              "prompt" : "Q2. In your own words, what is a confidence interval?",
+              "type": "longText"
+            },
+            {
+              "id": "stats-datasci-study/post_3",
+              "prompt" : "Q3. What is the margin of error? ",
+              "type": "radio",
+              "options": [
+                "The maximum difference between the sample mean and the population mean.",
+                "The range of possible values for the population parameter.",
+                "The amount added and subtracted from the sample statistic, usually based on the standard error and a critical value.",
+                "The standard deviation of the sample data."
+              ]
+            },
+            {
+              "id": "stats-datasci-study/post_4",
+              "prompt" : "Q4. Explain in your own words, what is the difference between a 95% confidence interval and a 99% confidence interval. ",
+              "type": "longText"
+            }
+          ]
+        },
+        "Posttest2": {
+          "type": "questionnaire",
+          "response": [
+            {
+              "id": "stats-datasci-study/post_5",
+              "prompt" : "Q5. A teacher wants to estimate the average number of hours per week that college students spend studying. She randomly selects 100 students, and their average study time is 20 hours per week with a sample standard deviation of 10 hours.\n\na) Which of the following is the correct calculation of the lower bond of the 95% confidence interval",
+              "type": "radio",
+              "options": [
+                "20 - 10",
+                "20 - 10/sqrt(100)",
+                "20 - 1.96 * 10/sqrt(100)",
+                "20 + 1.96 * 10/sqrt(100)"
+              ]
+            },
+            {
+              "id": "stats-datasci-study/post_6",
+              "prompt" : "b) The teacher instead wants to construct a 90% confidence interval,\n  i) Compared to that of the 95% confidence interval, what happens to the margin of error for the 90% confidence interval?",
+              "type": "radio",
+              "options": [
+                "The margin of error of the 90% confidence interval will be larger.",
+                "The margin of error of the 90% confidence interval will be smaller.",
+                "The margin of error will not change."
+              ]
+            },
+            {
+              "id": "stats-datasci-study/post_7",
+              "prompt" : "ii) Compared to that of the 95% confidence interval, what happens to the 90% confidence interval?",
+              "type": "radio",
+              "options": [
+                "The 90% confidence interval will be larger.",
+                "The 90% confidence interval will be smaller.",
+                "The 90% confidence interval will not change."
+              ]
+            }
+          ]
+        },
+        "Posttest3": {
+          "type": "questionnaire",
+          "response": [
+            {
+              "id": "stats-datasci-study/post_8",
+              "prompt" : "Q6. A researcher collects a random sample of 80 students from a university (40 students are freshmen, and 40 students are seniors).\n\nThe researcher investigated whether freshmen and seniors differ in their anxiety score.\n\nlm(anxiety_score~college_year, data = collegedata)\n\nThe estimated b₁ from the sample is 1.2, indicating that, on average, seniors score 1.2 points higher in anxiety than freshmen.\n\nThe 95% confidence interval for β₁ is [0.2, 2.2].\n\na) Based on this confidence interval, do you think freshmen and seniors differ in their average anxiety levels (i.e., would you reject the empty model)? Explain your reasoning.",
+              "type": "longText"
+            },
+            {
+              "id": "stats-datasci-study/post_9",
+              "prompt" : "b) Which of the following is the correct interpretation of the confidence interval [0.2, 2.2]?",
+              "type": "radio",
+              "options": [
+                "A. There is a 95% chance the true mean difference between freshmen and seniors lies between 0.2 and 2.2.",
+                "B. 95% of students have an anxiety score between 0.2 and 2.2.",
+                "C. If we repeated this study many times, 95% of such intervals would contain the true mean difference between freshmen and seniors.",
+                "D. The population mean difference is guaranteed to be between 0.2 and 2.2."
+              ]
+            }
+          ]
+        },
+        "Posttest4": {
+          "type": "react-component",
+          "instruction": "Q7. In order to test the effectiveness of an AI tutor in helping students learn programming, researchers randomly assigned students to either learn programming with an AI tutor or learn programming without an AI tutor. Students then completed a programming test.\n\nResearchers found that students who learned with the AI tutor on average answered 7.3 questions correctly, whereas those who learned without the AI tutor on average answered 6.5 questions correctly.\n\nThe b1 of this two-group model is 0.8.",
+          "instructionLocation": "aboveStimulus",
+          "path": "learn-stats-ds-video/assets/ConfidenceApp.tsx",
+          "parameters": {
+            "pageId": "app-only"
+          },
+          "response": [
+            {
+              "id": "stats-datasci-study/post_vm_intro",
+              "type": "textOnly",
+              "prompt" : "a) Use the virtual app below to find the 95% confidence interval for β₁.",
+              "location": "aboveStimulus"
+            },
+            {
+              "id": "stats-datasci-study/post_vm_1lower",
+              "type": "shortText",
+              "prompt": "The value of the lower bound:",
+              "location": "belowStimulus"
+            },
+            {
+              "id": "stats-datasci-study/post_vm_1upper",
+              "type": "shortText",
+              "prompt": "The value of the upper bound:",
+              "location": "belowStimulus"
+            },
+            {
+              "id": "stats-datasci-study/post_vm_2",
+              "prompt" : "b) In your own words, explain what does the lower bond of the confidence interval represent?",
+              "type": "longText"
+            },
+            {
+              "id": "stats-datasci-study/post_vm_3",
+              "prompt" : "c) In your own words, explain why is a 95% confidence interval an interval for β₁, not b₁?",
+              "type": "longText"
+            },
+            {
+              "id": "stats-datasci-study/post_vm_4",
+              "prompt" : "d) Based on the confidence interval, would you conclude there is a significant difference between the AI tutor group and the no AI tutor group in terms of the programming test scores?",
+              "type": "longText"
+            }
+          ]
+        },
+        "Posttest5": {
+          "type": "react-component",
+          "instruction": "Q7. In order to test the effectiveness of an AI tutor in helping students learn programming, researchers randomly assigned students to either learn programming with an AI tutor or learn programming without an AI tutor. Students then completed a programming test.\n\nResearchers found that students who learned with the AI tutor on average answered 7.3 questions correctly, whereas those who learned without the AI tutor on average answered 6.5 questions correctly.\n\nThe b1 of this two-group model is 0.8. \n\nUse the virtual app below to find the 90% confidence interval for β₁",
+          "instructionLocation": "aboveStimulus",
+          "path": "learn-stats-ds-video/assets/ConfidenceApp.tsx",
+          "parameters": {
+            "pageId": "app-only"
+          },
+          "response": [
+            {
+              "id": "stats-datasci-study/post_vm_5lower",
+              "type": "shortText",
+              "prompt": "The value of the lower bound:",
+              "location": "belowStimulus"
+            },
+            {
+              "id": "stats-datasci-study/post_vm_5upper",
+              "type": "shortText",
+              "prompt": "The value of the upper bound:",
+              "location": "belowStimulus"
+            },
+            {
+              "id": "stats-datasci-study/post_vm_6",
+              "prompt" : "e) The 90% confidence interval of β₁ is __________ the 95% confidence interval of β₁",
+              "type": "radio",
+              "options": [
+                "wider than",
+                "narrower than",
+                "the same as"
+              ]
+            },
+            {
+              "id": "stats-datasci-study/post_vm_7",
+              "prompt" : "f) If the researcher wants a confidence interval to be more likely to capture the β₁ in the long run, should the researcher choose a 90%, 95%, 99% confidence interval?",
+              "type": "radio",
+              "options": [
+                "90%",
+                "95%",
+                "99%"
+              ]
+            },
+            {
+              "id": "stats-datasci-study/post_vm_8",
+              "prompt" : "e) Explain your reasoning to the previous question",
+              "type": "longText"
+            }
+          ]  
+        },
+        "Posttest6": {
+          "type": "react-component",
+          "instruction": "Use the virtual app below to find the 99% confidence interval for β₁",
+          "instructionLocation": "aboveStimulus",
+          "path": "learn-stats-ds-video/assets/ConfidenceApp.tsx",
+          "parameters": {
+            "pageId": "app-only"
+          },
+          "response": [
+            {
+              "id": "stats-datasci-study/post_vm_9",
+              "prompt" : "Q8. A researcher wants to examine the relationship between the number of hours students spend on social media every week and their anxiety (on a 0 to 10 scale).\n\nThe slope (b₁) for the relationship between a country’s GDP and their average life expectancy is 2. The 95% confidence interval is [0.21, 3.79].\n\n a) Given this 95% confidence interval, would you reject the empty model (β₁=0)? Explain your answer.",
+              "type": "longText",
+              "location": "aboveStimulus"
+            },
+            {
+              "id": "stats-datasci-study/post_vm_10lower",
+              "type": "shortText",
+              "prompt": "The value of the lower bound:",
+              "location": "belowStimulus"
+            },
+            {
+              "id": "stats-datasci-study/post_vm_10upper",
+              "type": "shortText",
+              "prompt": "The value of the upper bound:",
+              "location": "belowStimulus"
+            },
+            {
+              "id": "stats-datasci-study/post_vm_11",
+              "prompt" : "c) Why is the 99% confidence interval wider than the 95% confidence interval?",
+              "type": "longText"
+            },
+            {
+              "id": "stats-datasci-study/post_vm_12",
+              "prompt" : "d) Does the conclusion you draw about whether to reject the empty model (β₁=0) differ based on the 95% versus 99% confidence interval?",
+              "type": "radio",
+              "options": [
+                "Yes",
+                "No",
+                "Not sure"
+              ]
+            },
+            {
+              "id": "stats-datasci-study/post_vm_13",
+              "prompt" : "e) Explain your reasoning.",
+              "type": "longText"
+            }
+          ]  
+        },
+        "Posttest7": {
+          "type": "react-component",
+          "instruction": "f) The standard error of the sampling distribution above is 0.9, use the app below to change standard error to 0.5.",
+          "instructionLocation": "aboveStimulus",
+          "path": "learn-stats-ds-video/assets/ConfidenceApp.tsx",
+          "parameters": {
+            "pageId": "post_vm_14",
+            "taskId": "post_vm_14"
+          },
+          "response": [
+            {
+              "id": "stats-datasci-study/post_vm_14",
+              "type": "longText",
+              "prompt": "Notice how the scale changed as you changed the standard error of the sampling distribution. This is to help make the graph more readable. Change the Scale back by dragging the dot to the right to see how the sampling distribution is narrower (less variable) after you changed standard error to 0.5.\n\nWhat would happen to the sampling distribution if the standard error changes from 0.9 to 0.5? Does the sampling distribution become more or less variable? ",
+              "location": "belowStimulus"
+            },
+            {
+              "id": "stats-datasci-study/post_vm_15",
+              "type": "textOnly",
+              "prompt": "g) Use the new sampling distribution above, where standard error is 0.5, to find the new 99% confidence interval. Remember to set α to .01.",
+              "location": "belowStimulus"
+            },
+            {
+              "id": "stats-datasci-study/post_vm_15lower",
+              "type": "shortText",
+              "prompt": "The value of the lower bound:",
+              "location": "belowStimulus"
+            },
+            {
+              "id": "stats-datasci-study/post_vm_15upper",
+              "type": "shortText",
+              "prompt": "The value of the upper bound:",
+              "location": "belowStimulus"
+            },
+            {
+              "id": "stats-datasci-study/post_vm_16",
+              "prompt" : "h) If the standard error becomes smaller (0.9 -> 0.5), the confidence interval becomes _______.",
+              "type": "radio",
+              "options": [
+                "Wider",
+                "Narrower",
+                "Not sure"
+              ]
+            }
+          ]  
+        },
+        "Posttest8": {
+          "type": "questionnaire",
+          "response": [
+            {
+              "id" : "stats-datasci-study/post_vm_2question",
+              "type": "textOnly",
+              "prompt": "You are almost done! Just two more questions."
+            },
+            {
+              "id": "stats-datasci-study/post_vm_jol",
+              "type": "slider",
+              "prompt": "1. What percentage of the questions above do you think you answered correct?",
+              "options": [
+                { "label": "0", "value": 0 },
+                { "label": "10", "value": 10 },
+                { "label": "20", "value": 20 },
+                { "label": "30", "value": 30 },
+                { "label": "40", "value": 40 },
+                { "label": "50", "value": 50 },
+                { "label": "60", "value": 60 },
+                { "label": "70", "value": 70 },
+                { "label": "80", "value": 80 },
+                { "label": "90", "value": 90 },
+                { "label": "100", "value": 100 }
+              ],
+              "step": 1,
+              "spacing": 10
+            },
+            {
+              "id": "stats-datasci-study/post_vm_distraction",
+              "prompt" : "2. Did you experience any significant distraction or technical difficulty while completing this survey? Please be honest. Your answer here will not affect your extra credit.",
+              "type": "longText"
+            }
+          ]
+        }
+    },
+    "importedLibraries": [
+        "mic-check"
+    ],
+    "sequence": {
+    "order": "latinSquare",
+    "numSamples": 1,
+    "components": [
+      {
+        "id": "explore-embodied",
+        "order": "fixed",
+        "components": [
+          "Consent",
+          "$mic-check.co.audioTest",
+          "Demographics",
+          "Pretest_1",
+          "Pretest_2",
+          "Pretest_3",
+          "Motivation",
+
+          "Self-exploration1",
+          "Self-exploration1-2",
+          "Self-exploration2",
+          "Self-exploration3",
+          "Self-exploration3-2",
+          "Self-exploration4",
+
+          "Embodied_video_intro",
+          "Embodied_video_instructions",
+          "Video1",
+          "Video2",
+          "Video3",
+          "Video_engagement",
+
+          "Cognitive_load",
+          "Posttest_intro",
+          "Posttest1",
+          "Posttest2",
+          "Posttest3",
+          "Posttest4",
+          "Posttest5",
+          "Posttest6",
+          "Posttest7",
+          "Posttest8"
+        ]
+      },
+      {
+        "id": "explore-control",
+        "order": "fixed",
+        "components": [
+          "Consent",
+          "$mic-check.co.audioTest",
+          "Demographics",
+          "Pretest_1",
+          "Pretest_2",
+          "Pretest_3",
+          "Motivation",
+
+          "Self-exploration1",
+          "Self-exploration1-2",
+          "Self-exploration2",
+          "Self-exploration3",
+          "Self-exploration3-2",
+          "Self-exploration4",
+
+          "Control_instructions",
+          "Control_intro",
+          "Control_Video1",
+          "Control_Video2",
+          "Control_Video3",
+          "Video_engagement",
+
+          "Cognitive_load",
+          "Posttest_intro",
+          "Posttest1",
+          "Posttest2",
+          "Posttest3",
+          "Posttest4",
+          "Posttest5",
+          "Posttest6",
+          "Posttest7",
+          "Posttest8"
+        ]
+      },
+      {
+        "id": "embodied-explore",
+        "order": "fixed",
+        "components": [
+          "Consent",
+          "$mic-check.co.audioTest",
+          "Demographics",
+          "Pretest_1",
+          "Pretest_2",
+          "Pretest_3",
+          "Motivation",
+
+          "Embodied_video_intro",
+          "Embodied_video_instructions",
+          "Video1",
+          "Video2",
+          "Video3",
+          "Video_engagement",
+
+          "Self-exploration1",
+          "Self-exploration1-2",
+          "Self-exploration2",
+          "Self-exploration3",
+          "Self-exploration3-2",
+          "Self-exploration4",
+
+          "Cognitive_load",
+          "Posttest_intro",
+          "Posttest1",
+          "Posttest2",
+          "Posttest3",
+          "Posttest4",
+          "Posttest5",
+          "Posttest6",
+          "Posttest7",
+          "Posttest8"
+        ]
+      },
+      {
+        "id": "control-explore",
+        "order": "fixed",
+        "components": [
+          "Consent",
+          "$mic-check.co.audioTest",
+          "Demographics",
+          "Pretest_1",
+          "Pretest_2",
+          "Pretest_3",
+          "Motivation",
+
+          "Control_instructions",
+          "Control_intro",
+          "Control_Video1",
+          "Control_Video2",
+          "Control_Video3",
+          "Video_engagement",
+
+          "Self-exploration1",
+          "Self-exploration1-2",
+          "Self-exploration2",
+          "Self-exploration3",
+          "Self-exploration3-2",
+          "Self-exploration4",
+
+          "Cognitive_load",
+          "Posttest_intro",
+          "Posttest1",
+          "Posttest2",
+          "Posttest3",
+          "Posttest4",
+          "Posttest5",
+          "Posttest6",
+          "Posttest7",
+          "Posttest8"
+        ]
+      }
+    ]
+  }
+}
