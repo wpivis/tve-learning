@@ -192,30 +192,37 @@ function App({
 
   const initialBeta =
     parameters.initialBeta === undefined
-      ? isGuided95Page || isGuided95Page2 || isGuided99Page
+      ? isGuided95Page2
         ? 1
-        : isTransfer3Page
-          ? 0
-          : null
+        : isGuided99Page
+          ? 0.8
+          : isTransfer3Page
+            ? 0
+            : null
       : parameters.initialBeta;
 
   const initialB =
     parameters.initialB === undefined
-      ? isGuided95Page || isGuided95Page2 || isGuided99Page
+      ? isGuided95Page2
         ? 1.1
-        : isTransfer3Page
-          ? 2
-          : null
+        : isGuided99Page
+          ? 0.8
+          : isTransfer3Page
+            ? 2
+            : null
       : parameters.initialB;
 
   const initialSE =
     parameters.initialSE ??
-    (isTransfer3Page ? 0.5 : 1);
+    (isGuided99Page
+      ? 0.18
+      : isTransfer3Page
+        ? 0.5
+        : 1);
 
   const initialCurve =
     parameters.initialCurve ??
     (
-      isGuided95Page ||
       isGuided95Page2 ||
       isGuided99Page ||
       isTransfer3Page
@@ -226,9 +233,11 @@ function App({
   const initialCI =
     parameters.initialCI ??
     (
-      isGuided95Page || isGuided95Page2 || isGuided99Page
-        ? '.05'
-        : 'off'
+      isGuided99Page
+        ? '.01'
+        : isGuided95Page2
+          ? '.05'
+          : 'off'
     );
 
 const lowerAnswerId =
@@ -505,6 +514,7 @@ const extraAnswersRef = useRef<Record<string, string>>({});
       se: initialSE,
       curve: initialCurve,
       ci: initialCI,
+      scale: .75,
     });
 
     initialDefaultsAppliedRef.current = true;
