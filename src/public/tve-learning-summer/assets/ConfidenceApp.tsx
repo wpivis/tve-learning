@@ -186,27 +186,50 @@ function App({
   const pageId = parameters.pageId ?? 'guided-95';
   const taskId = parameters.taskId ?? pageId;
   const isGuided95Page = pageId === 'guided-95';
+  const isGuided95Page2 = pageId === 'guided-95-2';
   const isGuided99Page = pageId === 'guided-99';
   const isTransfer3Page = pageId === 'transfer-3';
 
   const initialBeta =
     parameters.initialBeta === undefined
-      ? isGuided95Page
+      ? isGuided95Page || isGuided95Page2 || isGuided99Page
         ? 1
-        : null
+        : isTransfer3Page
+          ? 0
+          : null
       : parameters.initialBeta;
 
   const initialB =
     parameters.initialB === undefined
-      ? isGuided95Page
+      ? isGuided95Page || isGuided95Page2 || isGuided99Page
         ? 1.1
-        : null
+        : isTransfer3Page
+          ? 2
+          : null
       : parameters.initialB;
 
-  const initialSE = parameters.initialSE ?? 1;
+  const initialSE =
+    parameters.initialSE ??
+    (isTransfer3Page ? 0.5 : 1);
+
   const initialCurve =
-    parameters.initialCurve ?? (isGuided95Page ? 'normal' : 'off');
-  const initialCI = parameters.initialCI ?? 'off';
+    parameters.initialCurve ??
+    (
+      isGuided95Page ||
+      isGuided95Page2 ||
+      isGuided99Page ||
+      isTransfer3Page
+        ? 'normal'
+        : 'off'
+    );
+
+  const initialCI =
+    parameters.initialCI ??
+    (
+      isGuided95Page || isGuided95Page2 || isGuided99Page
+        ? '.05'
+        : 'off'
+    );
 
 const lowerAnswerId =
   parameters.lowerAnswerId ??
@@ -706,7 +729,7 @@ const extraAnswersRef = useRef<Record<string, string>>({});
                 min="0.5"
                 max="3"
                 step="0.1"
-                defaultValue="1.75"
+                defaultValue="1.25"
               />
             </label>
 
@@ -1208,7 +1231,7 @@ const extraAnswersRef = useRef<Record<string, string>>({});
         />
       </section>
 
-      <section className="guided-section guided-gray">
+      <section className="guided-section">
         <p className="guided-step-title">
           b) The standard error of the sampling distribution above is 0.9. Use
           the app below to change standard error to 0.5.
