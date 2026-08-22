@@ -189,7 +189,8 @@
                         "The probability that a sample mean will fall in between 95 and 105.",
                         "The sample means that are not unlikely to come from a population with a mean of 100.",
                         "The sample means that are unlikely to come from a population with a mean of 100."
-                    ]
+                    ],
+                    "minSelections": 2
                 },
                 {
                     "id": "tve-learning/pre_3_understanding",
