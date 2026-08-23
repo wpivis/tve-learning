@@ -270,7 +270,7 @@ function App({
       isGuided99Page
         ? 0.18
         : isTransfer3Page
-          ? 0.8
+          ? 0.9
           : 1
     );
 
