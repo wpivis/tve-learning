@@ -18,9 +18,57 @@ import type {
 
 import useProvenance from './useProvenance';
 
-type ConfidencePageId = "guided-99" | "guided-95" | "guided-95-2" | "app-only" | "transfer-3";
+type ConfidencePageId =
+  | "guided-99"
+  | "guided-95"
+  | "guided-95-2"
+  | "app-only"
+  | "transfer-3";
 
-const studyName = "tve-learning-summer"
+const studyName = "tve-learning-summer";
+
+type ConfidenceAppState = NonNullable<ProvenanceStateModel['appState']>;
+
+const GUIDED_95_CARRYOVER_KEY =
+  `${studyName}:guided-95-confidence-app-state`;
+
+let guided95CarryoverState: ConfidenceAppState | null = null;
+
+function saveGuided95CarryoverState(state: ConfidenceAppState) {
+  // Keep an in-memory copy as a fallback.
+  guided95CarryoverState = state;
+
+  try {
+    window.sessionStorage.setItem(
+      GUIDED_95_CARRYOVER_KEY,
+      JSON.stringify(state),
+    );
+  } catch (error) {
+    console.warn(
+      'Could not save Guided 95 confidence app state:',
+      error,
+    );
+  }
+}
+
+function loadGuided95CarryoverState(): ConfidenceAppState | null {
+  try {
+    const savedState = window.sessionStorage.getItem(
+      GUIDED_95_CARRYOVER_KEY,
+    );
+
+    if (savedState) {
+      return JSON.parse(savedState) as ConfidenceAppState;
+    }
+  } catch (error) {
+    console.warn(
+      'Could not load Guided 95 confidence app state:',
+      error,
+    );
+  }
+
+  return guided95CarryoverState;
+}
 
 interface ConfidenceAppParameters {
   pageId?: ConfidencePageId;
@@ -124,7 +172,10 @@ const GUIDED_PAGE_CSS = `
   }
 `;
 
-function loadScript(source: string, id: string): Promise<HTMLScriptElement> {
+function loadScript(
+  source: string,
+  id: string,
+): Promise<HTMLScriptElement> {
   return new Promise((resolve, reject) => {
     const existingScript = document.getElementById(
       id,
@@ -185,6 +236,7 @@ function App({
 
   const pageId = parameters.pageId ?? 'guided-95';
   const taskId = parameters.taskId ?? pageId;
+
   const isGuided95Page = pageId === 'guided-95';
   const isGuided95Page2 = pageId === 'guided-95-2';
   const isGuided99Page = pageId === 'guided-99';
@@ -214,11 +266,13 @@ function App({
 
   const initialSE =
     parameters.initialSE ??
-    (isGuided99Page
-      ? 0.18
-      : isTransfer3Page
-        ? 0.8
-        : 1);
+    (
+      isGuided99Page
+        ? 0.18
+        : isTransfer3Page
+          ? 0.8
+          : 1
+    );
 
   const initialCurve =
     parameters.initialCurve ??
@@ -240,42 +294,58 @@ function App({
           : 'off'
     );
 
-const lowerAnswerId =
-  parameters.lowerAnswerId ??
-  (isGuided95Page
-    ? 'guided_exploration_95_lower_bound'
-    : isGuided99Page
-      ? 'guided_exploration_99_lower_bound'
-      : isTransfer3Page
-        ? 'transfer_3_c_lower_bound'
-        : undefined);
+  const lowerAnswerId =
+    parameters.lowerAnswerId ??
+    (
+      isGuided95Page
+        ? 'guided_exploration_95_lower_bound'
+        : isGuided99Page
+          ? 'guided_exploration_99_lower_bound'
+          : isTransfer3Page
+            ? 'transfer_3_c_lower_bound'
+            : undefined
+    );
 
-const upperAnswerId =
-  parameters.upperAnswerId ??
-  (isGuided95Page
-    ? 'guided_exploration_95_upper_bound'
-    : isGuided99Page
-      ? 'guided_exploration_99_upper_bound'
-      : isTransfer3Page
-        ? 'transfer_3_c_upper_bound'
-        : undefined);
+  const upperAnswerId =
+    parameters.upperAnswerId ??
+    (
+      isGuided95Page
+        ? 'guided_exploration_95_upper_bound'
+        : isGuided99Page
+          ? 'guided_exploration_99_upper_bound'
+          : isTransfer3Page
+            ? 'transfer_3_c_upper_bound'
+            : undefined
+    );
 
   const lowerPrompt =
-    parameters.lowerPrompt ?? 'The value of the lower bound:';
+    parameters.lowerPrompt ??
+    'The value of the lower bound:';
+
   const upperPrompt =
-    parameters.upperPrompt ?? 'The value of the upper bound:';
+    parameters.upperPrompt ??
+    'The value of the upper bound:';
 
   const assetBasePath =
-    parameters.assetBasePath ?? `${studyName}/assets`;
+    parameters.assetBasePath ??
+    `${studyName}/assets`;
 
   const [apiReady, setApiReady] = useState(false);
+
   const [lowerBound, setLowerBound] = useState('');
   const [upperBound, setUpperBound] = useState('');
-  const [transfer3AAnswer, setTransfer3AAnswer] = useState('');
-  const [transfer3BAnswer, setTransfer3BAnswer] = useState('');
-  const [transfer3DAnswer, setTransfer3DAnswer] = useState('');
 
-const extraAnswersRef = useRef<Record<string, string>>({});
+  const [transfer3AAnswer, setTransfer3AAnswer] =
+    useState('');
+
+  const [transfer3BAnswer, setTransfer3BAnswer] =
+    useState('');
+
+  const [transfer3DAnswer, setTransfer3DAnswer] =
+    useState('');
+
+  const extraAnswersRef =
+    useRef<Record<string, string>>({});
 
   const answersRef = useRef({
     lowerBound: '',
@@ -283,8 +353,12 @@ const extraAnswersRef = useRef<Record<string, string>>({});
   });
 
   const isHydratingRef = useRef(false);
-  const initialStateRecordedRef = useRef(false);
-  const initialDefaultsAppliedRef = useRef(false);
+
+  const initialStateRecordedRef =
+    useRef(false);
+
+  const initialDefaultsAppliedRef =
+    useRef(false);
 
   const assetPath = useCallback(
     (filename: string) =>
@@ -298,57 +372,77 @@ const extraAnswersRef = useRef<Record<string, string>>({});
     };
 
     if (lowerAnswerId) {
-      answers[lowerAnswerId] = answersRef.current.lowerBound;
+      answers[lowerAnswerId] =
+        answersRef.current.lowerBound;
     }
 
     if (upperAnswerId) {
-      answers[upperAnswerId] = answersRef.current.upperBound;
+      answers[upperAnswerId] =
+        answersRef.current.upperBound;
     }
 
     const lowerComplete =
-      !lowerAnswerId || answersRef.current.lowerBound.trim() !== '';
+      !lowerAnswerId ||
+      answersRef.current.lowerBound.trim() !== '';
 
     const upperComplete =
-      !upperAnswerId || answersRef.current.upperBound.trim() !== '';
+      !upperAnswerId ||
+      answersRef.current.upperBound.trim() !== '';
 
     setAnswer({
       status: lowerComplete && upperComplete,
       answers,
       provenanceGraph: trrack.graph.backend,
     });
-  }, [lowerAnswerId, setAnswer, trrack, upperAnswerId]);
+  }, [
+    lowerAnswerId,
+    setAnswer,
+    trrack,
+    upperAnswerId,
+  ]);
 
   const saveExtraAnswer = useCallback(
-  (id: string, value: string) => {
-    extraAnswersRef.current[id] = value;
-    saveToRevisit();
-  },
-  [saveToRevisit],
-);
+    (id: string, value: string) => {
+      extraAnswersRef.current[id] = value;
+      saveToRevisit();
+    },
+    [saveToRevisit],
+  );
 
-  const handleLowerBoundChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleLowerBoundChange = (
+    event: ChangeEvent<HTMLInputElement>,
+  ) => {
     const value = event.currentTarget.value;
 
     setLowerBound(value);
+
     answersRef.current.lowerBound = value;
+
     saveToRevisit();
   };
 
-  const handleUpperBoundChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleUpperBoundChange = (
+    event: ChangeEvent<HTMLInputElement>,
+  ) => {
     const value = event.currentTarget.value;
 
     setUpperBound(value);
+
     answersRef.current.upperBound = value;
+
     saveToRevisit();
   };
 
   useEffect(() => {
     setApiReady(false);
+
     setLowerBound('');
     setUpperBound('');
+
     setTransfer3AAnswer('');
     setTransfer3BAnswer('');
     setTransfer3DAnswer('');
+
     extraAnswersRef.current = {};
 
     answersRef.current = {
@@ -362,8 +456,12 @@ const extraAnswersRef = useRef<Record<string, string>>({});
 
   useEffect(() => {
     let cancelled = false;
+
     let activeAPI: TutorialAPI | undefined;
-    let handleAction: ((event: TutorialAction) => void) | null = null;
+
+    let handleAction:
+      | ((event: TutorialAction) => void)
+      | null = null;
 
     async function initializeConfidenceApp() {
       try {
@@ -392,34 +490,61 @@ const extraAnswersRef = useRef<Record<string, string>>({});
           activeAPI.isAttached();
 
         if (!alreadyAttached) {
-          document.getElementById('confidence-app-script')?.remove();
-          document.querySelectorAll('#chart svg').forEach((element) => {
-            element.remove();
-          });
+          document
+            .getElementById('confidence-app-script')
+            ?.remove();
+
+          document
+            .querySelectorAll('#chart svg')
+            .forEach((element) => {
+              element.remove();
+            });
+
           delete window.tutorialAPI;
 
           if (cancelled) {
             return;
           }
 
-          const confidenceScript = document.createElement('script');
-          confidenceScript.id = 'confidence-app-script';
-          confidenceScript.src = `${import.meta.env.BASE_URL}${studyName}/assets/ConfidenceApp.js`;
+          const confidenceScript =
+            document.createElement('script');
+
+          confidenceScript.id =
+            'confidence-app-script';
+
+          confidenceScript.src =
+            `${import.meta.env.BASE_URL}${studyName}/assets/ConfidenceApp.js`;
+
           confidenceScript.async = false;
 
-          await new Promise<void>((resolve, reject) => {
-            confidenceScript.addEventListener('load', () => resolve(), {
-              once: true,
-            });
+          await new Promise<void>(
+            (resolve, reject) => {
+              confidenceScript.addEventListener(
+                'load',
+                () => resolve(),
+                {
+                  once: true,
+                },
+              );
 
-            confidenceScript.addEventListener(
-              'error',
-              () => reject(new Error('Could not load ConfidenceApp.js')),
-              { once: true },
-            );
+              confidenceScript.addEventListener(
+                'error',
+                () =>
+                  reject(
+                    new Error(
+                      'Could not load ConfidenceApp.js',
+                    ),
+                  ),
+                {
+                  once: true,
+                },
+              );
 
-            document.body.appendChild(confidenceScript);
-          });
+              document.body.appendChild(
+                confidenceScript,
+              );
+            },
+          );
 
           if (cancelled) {
             return;
@@ -436,7 +561,10 @@ const extraAnswersRef = useRef<Record<string, string>>({});
           );
         }
 
-        if (typeof api.isAttached !== 'function' || !api.isAttached()) {
+        if (
+          typeof api.isAttached !== 'function' ||
+          !api.isAttached()
+        ) {
           throw new Error(
             'tutorialAPI is not connected to the visible confidence chart.',
           );
@@ -445,37 +573,86 @@ const extraAnswersRef = useRef<Record<string, string>>({});
         const ignoredActions = new Set([
           'dragStart',
           'drag',
+
           'dragBStart',
           'dragB',
+
           'dragBetaStart',
           'dragBeta',
+
           'dragBetaPrimeStart',
           'dragBetaPrime',
+
           'dragBetaPrimePrimeStart',
           'dragBetaPrimePrime',
+
           'dragAxisStart',
           'dragAxis',
         ]);
 
-        handleAction = (event: TutorialAction) => {
-          if (isHydratingRef.current || ignoredActions.has(event.action)) {
+        handleAction = (
+          event: TutorialAction,
+        ) => {
+          if (isHydratingRef.current) {
             return;
           }
 
-          const nextState = api.getState();
+          const nextState =
+            api.getState();
+
+          /*
+           * For Guided 95 Page 1 and Page 2,
+           * always keep the newest app state.
+           *
+           * This happens BEFORE ignoredActions are checked
+           * so drag movements are still carried over.
+           */
+          if (
+            isGuided95Page ||
+            isGuided95Page2
+          ) {
+            saveGuided95CarryoverState(
+              nextState,
+            );
+          }
+
+          /*
+           * Do not record every intermediate drag
+           * movement into the provenance graph.
+           */
+          if (
+            ignoredActions.has(
+              event.action,
+            )
+          ) {
+            return;
+          }
 
           trrack.apply(
             event.action,
-            actions.trrackSetStateAction(nextState),
+            actions.trrackSetStateAction(
+              nextState,
+            ),
           );
 
           saveToRevisit();
         };
 
+        /*
+         * Attach the Confidence App event listener.
+         */
         api.onAction(handleAction);
+
+        /*
+         * The app is now ready for initialization
+         * or hydration.
+         */
         setApiReady(true);
       } catch (error) {
-        console.error('Could not initialize confidence application:', error);
+        console.error(
+          'Could not initialize confidence application:',
+          error,
+        );
       }
     }
 
@@ -484,52 +661,147 @@ const extraAnswersRef = useRef<Record<string, string>>({});
     return () => {
       cancelled = true;
 
-      if (handleAction && activeAPI) {
-        activeAPI.offAction(handleAction);
+      if (
+        handleAction &&
+        activeAPI
+      ) {
+        activeAPI.offAction(
+          handleAction,
+        );
       }
     };
-  }, [actions, pageId, saveToRevisit, trrack]);
+  }, [
+    actions,
+    pageId,
+    saveToRevisit,
+    trrack,
+  ]);
 
+  /*
+   * INITIAL APP STATE
+   *
+   * For Guided 95 Page 2:
+   * restore the state from Guided 95 Page 1.
+   *
+   * For everything else:
+   * use the normal page defaults.
+   */
   useEffect(() => {
-    if (!apiReady || provenanceState?.appState) {
+    if (
+      !apiReady ||
+      provenanceState?.appState
+    ) {
       return;
     }
 
-    if (initialDefaultsAppliedRef.current) {
+    if (
+      initialDefaultsAppliedRef.current
+    ) {
       return;
     }
 
-    const api = window.tutorialAPI;
+    const api =
+      window.tutorialAPI;
 
     if (!api) {
       return;
     }
 
-    const currentState = api.getState();
+    /*
+     * GUIDED 95 PAGE 2
+     *
+     * Try to restore exactly what the
+     * student left on Page 1.
+     */
+    if (isGuided95Page2) {
+      const carriedState =
+        loadGuided95CarryoverState();
+
+      if (carriedState) {
+        isHydratingRef.current = true;
+
+        api.setState(
+          carriedState,
+        );
+
+        initialDefaultsAppliedRef.current =
+          true;
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            isHydratingRef.current =
+              false;
+          });
+        });
+
+        return;
+      }
+    }
+
+    /*
+     * NORMAL DEFAULT INITIALIZATION
+     *
+     * This remains unchanged for Guided 95,
+     * Guided 99, Transfer 3, etc.
+     *
+     * It is also the fallback for Guided 95
+     * Page 2 if no Page 1 state exists.
+     */
+    const currentState =
+      api.getState();
 
     api.setState({
       ...currentState,
+
       beta: initialBeta,
       b: initialB,
+
       se: initialSE,
+
       curve: initialCurve,
       ci: initialCI,
+
       scale: .75,
     });
 
-    initialDefaultsAppliedRef.current = true;
+    initialDefaultsAppliedRef.current =
+      true;
+
+    /*
+     * Save the initial Guided 95 state too.
+     *
+     * This means Page 2 still has something
+     * to restore even if the student makes
+     * zero changes on Page 1.
+     */
+    if (isGuided95Page) {
+      saveGuided95CarryoverState(
+        api.getState(),
+      );
+    }
   }, [
     apiReady,
+
     initialB,
     initialBeta,
     initialCI,
     initialCurve,
     initialSE,
+
+    isGuided95Page,
+    isGuided95Page2,
+
     provenanceState,
   ]);
 
+  /*
+   * Record the initial state into provenance.
+   */
   useEffect(() => {
-    if (!apiReady || provenanceState?.appState) {
+    if (
+      !apiReady ||
+      provenanceState?.appState
+    ) {
       return;
     }
 
@@ -540,21 +812,27 @@ const extraAnswersRef = useRef<Record<string, string>>({});
       return;
     }
 
-    const api = window.tutorialAPI;
+    const api =
+      window.tutorialAPI;
 
     if (!api) {
       return;
     }
 
-    const initialState = api.getState();
+    const initialState =
+      api.getState();
 
     trrack.apply(
       'initialConfidenceState',
-      actions.trrackSetStateAction(initialState),
+      actions.trrackSetStateAction(
+        initialState,
+      ),
     );
 
     saveToRevisit();
-    initialStateRecordedRef.current = true;
+
+    initialStateRecordedRef.current =
+      true;
   }, [
     actions,
     apiReady,
@@ -563,481 +841,683 @@ const extraAnswersRef = useRef<Record<string, string>>({});
     trrack,
   ]);
 
+  /*
+   * ReVISit / provenance restoration.
+   *
+   * If this specific page already has saved
+   * provenance, that state should take priority
+   * over the Guided 95 Page 1 carryover.
+   */
   useEffect(() => {
-    if (!apiReady || !provenanceState?.appState) {
+    if (
+      !apiReady ||
+      !provenanceState?.appState
+    ) {
       return;
     }
 
-    const api = window.tutorialAPI;
+    const api =
+      window.tutorialAPI;
 
     if (!api) {
       return;
     }
 
     isHydratingRef.current = true;
-    api.setState(provenanceState.appState);
+
+    api.setState(
+      provenanceState.appState,
+    );
+
+    /*
+     * If Guided 95 Page 1 or Page 2 was restored
+     * from ReVISit, also update the carryover state.
+     */
+    if (
+      isGuided95Page ||
+      isGuided95Page2
+    ) {
+      saveGuided95CarryoverState(
+        provenanceState.appState,
+      );
+    }
 
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        isHydratingRef.current = false;
+        isHydratingRef.current =
+          false;
       });
     });
-  }, [apiReady, provenanceState]);
+  }, [
+    apiReady,
+    isGuided95Page,
+    isGuided95Page2,
+    provenanceState,
+  ]);
 
-  const renderConfidenceApplication = () => (
-    <div className="confidence-app-container">
-      <div className="app">
-        {/* Controls */}
-        <div className="row panel">
-          {/* Row 1 */}
-          <div className="row" style={{ gap: 16 }}>
-            <input
-              id="betaInput"
-              type="number"
-              step="0.1"
-              defaultValue=""
-              className="small-input"
-            />
-
-            <button
-              id="betaBtn"
-              className="primary"
-              style={{ visibility: 'hidden' }}
-              type="button"
+  const renderConfidenceApplication =
+    () => (
+      <div className="confidence-app-container">
+        <div className="app">
+          {/* Controls */}
+          <div className="row panel">
+            {/* Row 1 */}
+            <div
+              className="row"
+              style={{ gap: 16 }}
             >
-              Update
-            </button>
-
-            <label
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 8,
-              }}
-            >
-              <span id="seLabel" style={{ fontSize: '1.2em' }}>
-                SE
-              </span>
-
               <input
-                id="seInput"
+                id="betaInput"
                 type="number"
-                step="0.01"
-                defaultValue="1"
-                style={{ width: '45px' }}
+                step="0.1"
+                defaultValue=""
+                className="small-input"
               />
 
-              <input
-                id="seRange"
-                type="range"
-                min="0.1"
-                max="5"
-                step="0.05"
-                defaultValue="1"
-              />
-            </label>
+              <button
+                id="betaBtn"
+                className="primary"
+                style={{
+                  visibility:
+                    'hidden',
+                }}
+                type="button"
+              >
+                Update
+              </button>
 
-            <div className="dropdown-btn-wrap">
-              <button id="regenBtn" className="primary" type="button">
-                Simulate 1000x
+              <label
+                style={{
+                  display: 'flex',
+                  alignItems:
+                    'center',
+                  gap: 8,
+                }}
+              >
+                <span
+                  id="seLabel"
+                  style={{
+                    fontSize: '1.2em',
+                  }}
+                >
+                  SE
+                </span>
+
+                <input
+                  id="seInput"
+                  type="number"
+                  step="0.01"
+                  defaultValue="1"
+                  style={{
+                    width: '45px',
+                  }}
+                />
+
+                <input
+                  id="seRange"
+                  type="range"
+                  min="0.1"
+                  max="5"
+                  step="0.05"
+                  defaultValue="1"
+                />
+              </label>
+
+              <div className="dropdown-btn-wrap">
+                <button
+                  id="regenBtn"
+                  className="primary"
+                  type="button"
+                >
+                  Simulate 1000x
+                </button>
+
+                <button
+                  id="regenDropdownBtn"
+                  className="primary dropdown-arrow"
+                  title="Simulation options"
+                  type="button"
+                >
+                  <svg
+                    width="12"
+                    height="8"
+                    viewBox="0 0 12 8"
+                    fill="none"
+                  >
+                    <path
+                      d="M1 1L6 6L11 1"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+
+                <div
+                  id="regenDropdown"
+                  className="dropdown-menu"
+                >
+                  <button
+                    data-n="1"
+                    type="button"
+                  >
+                    1x
+                  </button>
+
+                  <button
+                    data-n="10"
+                    type="button"
+                  >
+                    10x
+                  </button>
+
+                  <button
+                    data-n="100"
+                    type="button"
+                  >
+                    100x
+                  </button>
+
+                  <button
+                    data-n="1000"
+                    type="button"
+                  >
+                    1000x
+                  </button>
+
+                  <button
+                    data-action="clear"
+                    type="button"
+                  >
+                    Clear
+                  </button>
+                </div>
+              </div>
+
+              <button
+                id="secondDistBtn"
+                className="icon-toggle"
+                title="Toggle second distribution"
+                type="button"
+              >
+                <span>β′</span>
               </button>
 
               <button
-                id="regenDropdownBtn"
-                className="primary dropdown-arrow"
-                title="Simulation options"
+                id="thirdDistBtn"
+                className="icon-toggle"
+                title="Toggle third distribution"
                 type="button"
               >
-                <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
-                  <path
-                    d="M1 1L6 6L11 1"
-                    stroke="currentColor"
+                <span>β″</span>
+              </button>
+
+              <div
+                className="seg"
+                id="powerSeg"
+                title="Second distribution shading mode"
+              >
+                <button
+                  data-power="tails"
+                  className="active"
+                  type="button"
+                >
+                  Tails
+                </button>
+
+                <button
+                  data-power="power"
+                  type="button"
+                >
+                  Power
+                </button>
+              </div>
+
+              <div
+                style={{
+                  flex: '1 1 auto',
+                }}
+              />
+
+              <input
+                id="bInput"
+                type="number"
+                step="0.01"
+                defaultValue=""
+                className="small-input"
+              />
+
+              <button
+                id="bBtn"
+                className="primary"
+                style={{
+                  visibility:
+                    'hidden',
+                }}
+                type="button"
+              >
+                Update
+              </button>
+            </div>
+
+            {/* Row 2 */}
+            <div
+              className="row"
+              style={{
+                gap: '16px',
+              }}
+            >
+              <label>
+                Scale
+
+                <input
+                  id="scaleRange"
+                  type="range"
+                  min="0.5"
+                  max="3"
+                  step="0.1"
+                  defaultValue="1.25"
+                />
+              </label>
+
+              <label>
+                Bins
+
+                <input
+                  id="binsRange"
+                  type="range"
+                  min="1"
+                  max="200"
+                  step="1"
+                  defaultValue="30"
+                />
+              </label>
+
+              <div
+                className="seg"
+                id="curveSeg"
+                title="Overlay curve"
+              >
+                <button
+                  data-curve="off"
+                  className="active"
+                  type="button"
+                >
+                  Off
+                </button>
+
+                <button
+                  data-curve="normal"
+                  type="button"
+                >
+                  Z
+                </button>
+
+                <button
+                  data-curve="t"
+                  type="button"
+                >
+                  t
+                </button>
+              </div>
+
+              <label>
+                df
+
+                <input
+                  id="dfInput"
+                  type="number"
+                  min="1"
+                  step="1"
+                  defaultValue="10"
+                  style={{
+                    width: '60px',
+                  }}
+                />
+              </label>
+
+              <div
+                className="seg"
+                id="ciSeg"
+              >
+                <button
+                  data-ci="off"
+                  className="active"
+                  type="button"
+                >
+                  OFF
+                </button>
+
+                <button
+                  data-ci=".10"
+                  type="button"
+                >
+                  α=.10
+                </button>
+
+                <button
+                  data-ci=".05"
+                  type="button"
+                >
+                  α=.05
+                </button>
+
+                <button
+                  data-ci=".01"
+                  type="button"
+                >
+                  α=.01
+                </button>
+              </div>
+
+              <button
+                id="vertLinesBtn"
+                className="icon-toggle"
+                title="Toggle vertical CI lines"
+                type="button"
+              >
+                <svg
+                  viewBox="0 0 20 20"
+                  fill="none"
+                >
+                  <line
+                    x1="7"
+                    y1="2"
+                    x2="7"
+                    y2="18"
+                    stroke="#1d4ed8"
                     strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                    strokeDasharray="2,2"
+                  />
+
+                  <line
+                    x1="13"
+                    y1="2"
+                    x2="13"
+                    y2="18"
+                    stroke="#1d4ed8"
+                    strokeWidth="2"
+                    strokeDasharray="2,2"
                   />
                 </svg>
               </button>
 
-              <div id="regenDropdown" className="dropdown-menu">
-                <button data-n="1" type="button">
-                  1x
-                </button>
-                <button data-n="10" type="button">
-                  10x
-                </button>
-                <button data-n="100" type="button">
-                  100x
-                </button>
-                <button data-n="1000" type="button">
-                  1000x
-                </button>
-                <button data-action="clear" type="button">
-                  Clear
-                </button>
-              </div>
-            </div>
+              <button
+                id="histogramBtn"
+                className="icon-toggle"
+                title="Toggle histogram/curve view"
+                type="button"
+              >
+                <svg
+                  viewBox="0 0 20 20"
+                  fill="none"
+                >
+                  <rect
+                    x="2"
+                    y="10"
+                    width="3"
+                    height="8"
+                    fill="#60a5fa"
+                    stroke="#1e4ed8"
+                    strokeWidth="0.5"
+                  />
 
+                  <rect
+                    x="6"
+                    y="6"
+                    width="3"
+                    height="12"
+                    fill="#60a5fa"
+                    stroke="#1e4ed8"
+                    strokeWidth="0.5"
+                  />
+
+                  <rect
+                    x="10"
+                    y="8"
+                    width="3"
+                    height="10"
+                    fill="#60a5fa"
+                    stroke="#1e4ed8"
+                    strokeWidth="0.5"
+                  />
+
+                  <rect
+                    x="14"
+                    y="12"
+                    width="3"
+                    height="6"
+                    fill="#60a5fa"
+                    stroke="#1e4ed8"
+                    strokeWidth="0.5"
+                  />
+                </svg>
+              </button>
+
+              <button
+                id="pValueBtn"
+                className="icon-toggle"
+                title="Toggle p-value display"
+                type="button"
+              >
+                <span className="p-icon">
+                  p
+                </span>
+              </button>
+            </div>
+          </div>
+
+          {/* Chart */}
+          <div
+            className="svg-wrap"
+            id="chart"
+          >
             <button
-              id="secondDistBtn"
-              className="icon-toggle"
-              title="Toggle second distribution"
+              id="btnMarkBound"
+              className="overlay-btn hidden"
               type="button"
             >
-              <span>β′</span>
+              Mark Bound
             </button>
 
             <button
-              id="thirdDistBtn"
-              className="icon-toggle"
-              title="Toggle third distribution"
+              id="btnMarkBound2"
+              className="overlay-btn orange hidden"
               type="button"
             >
-              <span>β″</span>
+              Mark Bound
+            </button>
+
+            <button
+              id="btnMarkBound3"
+              className="overlay-btn orange hidden"
+              type="button"
+            >
+              Mark Bound
             </button>
 
             <div
-              className="seg"
-              id="powerSeg"
-              title="Second distribution shading mode"
+              id="legend"
+              className="legend"
             >
-              <button data-power="tails" className="active" type="button">
-                Tails
-              </button>
-              <button data-power="power" type="button">
-                Power
-              </button>
+              <div className="legend-item">
+                <div className="legend-color power" />
+
+                <span>
+                  Power (1-β)
+                </span>
+              </div>
+
+              <div className="legend-item">
+                <div className="legend-color type2" />
+
+                <span>
+                  Type II Error (β)
+                </span>
+              </div>
             </div>
 
-            <div style={{ flex: '1 1 auto' }} />
-
-            <input
-              id="bInput"
-              type="number"
-              step="0.01"
-              defaultValue=""
-              className="small-input"
+            <div
+              id="topAxisLabel"
+              style={{
+                position:
+                  'absolute',
+                display: 'flex',
+                alignItems:
+                  'center',
+                gap: '8px',
+                pointerEvents:
+                  'none',
+              }}
             />
 
-            <button
-              id="bBtn"
-              className="primary"
-              style={{ visibility: 'hidden' }}
-              type="button"
-            >
-              Update
-            </button>
+            <div
+              id="bottomAxisLabel"
+              style={{
+                position:
+                  'absolute',
+                display: 'flex',
+                alignItems:
+                  'center',
+                gap: '8px',
+                pointerEvents:
+                  'none',
+              }}
+            />
+
+            <div
+              id="betaMarkerLabel"
+              style={{
+                position:
+                  'absolute',
+                pointerEvents:
+                  'none',
+                display: 'none',
+              }}
+            />
+
+            <div
+              id="bMarkerLabel"
+              style={{
+                position:
+                  'absolute',
+                pointerEvents:
+                  'none',
+                display: 'none',
+              }}
+            />
+
+            <div
+              id="betaPrimeMarkerLabel"
+              style={{
+                position:
+                  'absolute',
+                pointerEvents:
+                  'none',
+                display: 'none',
+              }}
+            />
+
+            <div
+              id="betaPrimePrimeMarkerLabel"
+              style={{
+                position:
+                  'absolute',
+                pointerEvents:
+                  'none',
+                display: 'none',
+              }}
+            />
+
+            <div
+              id="meanLineLabel"
+              style={{
+                position:
+                  'absolute',
+                pointerEvents:
+                  'none',
+                display: 'none',
+              }}
+            />
+
+            <div
+              id="meanLineLabel2"
+              style={{
+                position:
+                  'absolute',
+                pointerEvents:
+                  'none',
+                display: 'none',
+              }}
+            />
+
+            <div
+              id="meanLineLabel3"
+              style={{
+                position:
+                  'absolute',
+                pointerEvents:
+                  'none',
+                display: 'none',
+              }}
+            />
+
+            <div
+              id="pValueLabel"
+              style={{
+                position:
+                  'absolute',
+                pointerEvents:
+                  'none',
+                display: 'none',
+              }}
+            />
           </div>
-
-          {/* Row 2 */}
-          <div className="row" style={{ gap: '16px' }}>
-            <label>
-              Scale
-              <input
-                id="scaleRange"
-                type="range"
-                min="0.5"
-                max="3"
-                step="0.1"
-                defaultValue="1.25"
-              />
-            </label>
-
-            <label>
-              Bins
-              <input
-                id="binsRange"
-                type="range"
-                min="1"
-                max="200"
-                step="1"
-                defaultValue="30"
-              />
-            </label>
-
-            <div className="seg" id="curveSeg" title="Overlay curve">
-              <button data-curve="off" className="active" type="button">
-                Off
-              </button>
-              <button data-curve="normal" type="button">
-                Z
-              </button>
-              <button data-curve="t" type="button">
-                t
-              </button>
-            </div>
-
-            <label>
-              df
-              <input
-                id="dfInput"
-                type="number"
-                min="1"
-                step="1"
-                defaultValue="10"
-                style={{ width: '60px' }}
-              />
-            </label>
-
-            <div className="seg" id="ciSeg">
-              <button data-ci="off" className="active" type="button">
-                OFF
-              </button>
-              <button data-ci=".10" type="button">
-                α=.10
-              </button>
-              <button data-ci=".05" type="button">
-                α=.05
-              </button>
-              <button data-ci=".01" type="button">
-                α=.01
-              </button>
-            </div>
-
-            <button
-              id="vertLinesBtn"
-              className="icon-toggle"
-              title="Toggle vertical CI lines"
-              type="button"
-            >
-              <svg viewBox="0 0 20 20" fill="none">
-                <line
-                  x1="7"
-                  y1="2"
-                  x2="7"
-                  y2="18"
-                  stroke="#1d4ed8"
-                  strokeWidth="2"
-                  strokeDasharray="2,2"
-                />
-                <line
-                  x1="13"
-                  y1="2"
-                  x2="13"
-                  y2="18"
-                  stroke="#1d4ed8"
-                  strokeWidth="2"
-                  strokeDasharray="2,2"
-                />
-              </svg>
-            </button>
-
-            <button
-              id="histogramBtn"
-              className="icon-toggle"
-              title="Toggle histogram/curve view"
-              type="button"
-            >
-              <svg viewBox="0 0 20 20" fill="none">
-                <rect
-                  x="2"
-                  y="10"
-                  width="3"
-                  height="8"
-                  fill="#60a5fa"
-                  stroke="#1e4ed8"
-                  strokeWidth="0.5"
-                />
-                <rect
-                  x="6"
-                  y="6"
-                  width="3"
-                  height="12"
-                  fill="#60a5fa"
-                  stroke="#1e4ed8"
-                  strokeWidth="0.5"
-                />
-                <rect
-                  x="10"
-                  y="8"
-                  width="3"
-                  height="10"
-                  fill="#60a5fa"
-                  stroke="#1e4ed8"
-                  strokeWidth="0.5"
-                />
-                <rect
-                  x="14"
-                  y="12"
-                  width="3"
-                  height="6"
-                  fill="#60a5fa"
-                  stroke="#1e4ed8"
-                  strokeWidth="0.5"
-                />
-              </svg>
-            </button>
-
-            <button
-              id="pValueBtn"
-              className="icon-toggle"
-              title="Toggle p-value display"
-              type="button"
-            >
-              <span className="p-icon">p</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Chart */}
-        <div className="svg-wrap" id="chart">
-          <button
-            id="btnMarkBound"
-            className="overlay-btn hidden"
-            type="button"
-          >
-            Mark Bound
-          </button>
-
-          <button
-            id="btnMarkBound2"
-            className="overlay-btn orange hidden"
-            type="button"
-          >
-            Mark Bound
-          </button>
-
-          <button
-            id="btnMarkBound3"
-            className="overlay-btn orange hidden"
-            type="button"
-          >
-            Mark Bound
-          </button>
-
-          <div id="legend" className="legend">
-            <div className="legend-item">
-              <div className="legend-color power" />
-              <span>Power (1-β)</span>
-            </div>
-
-            <div className="legend-item">
-              <div className="legend-color type2" />
-              <span>Type II Error (β)</span>
-            </div>
-          </div>
-
-          <div
-            id="topAxisLabel"
-            style={{
-              position: 'absolute',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              pointerEvents: 'none',
-            }}
-          />
-
-          <div
-            id="bottomAxisLabel"
-            style={{
-              position: 'absolute',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              pointerEvents: 'none',
-            }}
-          />
-
-          <div
-            id="betaMarkerLabel"
-            style={{
-              position: 'absolute',
-              pointerEvents: 'none',
-              display: 'none',
-            }}
-          />
-
-          <div
-            id="bMarkerLabel"
-            style={{
-              position: 'absolute',
-              pointerEvents: 'none',
-              display: 'none',
-            }}
-          />
-
-          <div
-            id="betaPrimeMarkerLabel"
-            style={{
-              position: 'absolute',
-              pointerEvents: 'none',
-              display: 'none',
-            }}
-          />
-
-          <div
-            id="betaPrimePrimeMarkerLabel"
-            style={{
-              position: 'absolute',
-              pointerEvents: 'none',
-              display: 'none',
-            }}
-          />
-
-          <div
-            id="meanLineLabel"
-            style={{
-              position: 'absolute',
-              pointerEvents: 'none',
-              display: 'none',
-            }}
-          />
-
-          <div
-            id="meanLineLabel2"
-            style={{
-              position: 'absolute',
-              pointerEvents: 'none',
-              display: 'none',
-            }}
-          />
-
-          <div
-            id="meanLineLabel3"
-            style={{
-              position: 'absolute',
-              pointerEvents: 'none',
-              display: 'none',
-            }}
-          />
-
-          <div
-            id="pValueLabel"
-            style={{
-              position: 'absolute',
-              pointerEvents: 'none',
-              display: 'none',
-            }}
-          />
         </div>
       </div>
-    </div>
-  );
+    );
 
   const renderConfidenceIntervalInputs = (
-    question = 'What is the confidence interval?',
+    question =
+      'What is the confidence interval?',
   ) => (
     <div className="guided-answers">
-      <p className="guided-step-title">{question}</p>
+      <p className="guided-step-title">
+        {question}
+      </p>
 
       <div className="guided-answer-row">
-        <label htmlFor={`${taskId}-lower-bound`}>{lowerPrompt}</label>
+        <label
+          htmlFor={`${taskId}-lower-bound`}
+        >
+          {lowerPrompt}
+        </label>
+
         <input
           id={`${taskId}-lower-bound`}
           type="text"
           value={lowerBound}
-          onChange={handleLowerBoundChange}
+          onChange={
+            handleLowerBoundChange
+          }
         />
       </div>
 
       <div className="guided-answer-row">
-        <label htmlFor={`${taskId}-upper-bound`}>{upperPrompt}</label>
+        <label
+          htmlFor={`${taskId}-upper-bound`}
+        >
+          {upperPrompt}
+        </label>
+
         <input
           id={`${taskId}-upper-bound`}
           type="text"
           value={upperBound}
-          onChange={handleUpperBoundChange}
+          onChange={
+            handleUpperBoundChange
+          }
         />
       </div>
     </div>
@@ -1046,32 +1526,56 @@ const extraAnswersRef = useRef<Record<string, string>>({});
   const renderGuided95Page = () => (
     <div className="guided-page">
       <section className="guided-section think-aloud-section">
-        <h2>Think Aloud While You Explore</h2>
+        <h2>
+          Think Aloud While You Explore
+        </h2>
 
         <p>
           Next, you will explore how confidence intervals are constructed using the{" "}
-          <b>Confidence Interval App.</b>
+          <b>
+            Confidence Interval App.
+          </b>
         </p>
 
         <p className="think-aloud-heading">
-          <b>Please talk out loud throughout the activity</b>
+          <b>
+            Please talk out loud throughout the activity
+          </b>
         </p>
 
         <p>
           As you use the app,{" "}
-          <b>say out loud whatever is going through your mind.</b>{" "}
+          <b>
+            say out loud whatever is going through your mind.
+          </b>{" "}
           Do not just think silently—we need to be able to hear your thoughts in
           the recording.
         </p>
 
-        <p>You might talk about:</p>
+        <p>
+          You might talk about:
+        </p>
 
         <ul className="think-aloud-list">
-          <li>what you notice;</li>
-          <li>what you are trying to figure out;</li>
-          <li>what you expect to happen;</li>
-          <li>what surprises or confuses you;</li>
-          <li>any ideas or connections that come to mind.</li>
+          <li>
+            what you notice;
+          </li>
+
+          <li>
+            what you are trying to figure out;
+          </li>
+
+          <li>
+            what you expect to happen;
+          </li>
+
+          <li>
+            what surprises or confuses you;
+          </li>
+
+          <li>
+            any ideas or connections that come to mind.
+          </li>
         </ul>
 
         <p>
@@ -1125,7 +1629,9 @@ const extraAnswersRef = useRef<Record<string, string>>({});
       </section>
 
       <section className="guided-section">
-        <h2>Part 1: Construct a 95% CI</h2>
+        <h2>
+          Part 1: Construct a 95% CI
+        </h2>
 
         <p>
           Below, you will try to construct a 95% confidence interval using the
@@ -1145,59 +1651,102 @@ const extraAnswersRef = useRef<Record<string, string>>({});
         {renderConfidenceApplication()}
 
         {renderConfidenceIntervalInputs(
-          "What is the 95% confidence interval?"
+          "What is the 95% confidence interval?",
         )}
       </section>
     </div>
   );
 
   const renderGuided95Page2 = () => (
-    <div className='guided-page'>
-        <section className='guided-section'>
-          <p className='guided-step-title'>
-            Now, review Step 6 and 7 below. If your interval is incorrect, revise your work in the confidence interval app based on the explanations provided in those steps.
-          </p>
-          <p>Step 6. Mark the lower bound: this is the lowest value of μ that will still make X̄ = 0.8 likely. (Doesn’t need to be precisely the number.)</p>
-          <img
-          className="guided-step-img"
-          src={assetPath('guided-step-6.png')}
-          alt="Step 6 instruction"
-          />
-
-        <p className='guided-step-title'>
-          Step 7. Mark the upper bound: this is the highest value of μ that will still make X̄ = 0.8 likely. 
+    <div className="guided-page">
+      <section className="guided-section">
+        <p className="guided-step-title">
+          Now, review Step 6 and 7 below. If your interval is incorrect, revise
+          your work in the confidence interval app based on the explanations
+          provided in those steps.
         </p>
+
+        <p>
+          Step 6. Mark the lower bound: this is the lowest value of μ that will
+          still make X̄ = 0.8 likely. (Doesn’t need to be precisely the number.)
+        </p>
+
         <img
           className="guided-step-img"
-          src={assetPath('guided-step-7.png')}
+          src={assetPath(
+            'guided-step-6.png',
+          )}
+          alt="Step 6 instruction"
+        />
+
+        <p className="guided-step-title">
+          Step 7. Mark the upper bound: this is the highest value of μ that will
+          still make X̄ = 0.8 likely.
+        </p>
+
+        <img
+          className="guided-step-img"
+          src={assetPath(
+            'guided-step-7.png',
+          )}
           alt="Step 7 instruction"
         />
 
+        {/*
+          This is still the normal Confidence App.
+
+          Its initial-state effect above now loads the
+          student's final Guided 95 Page 1 state instead
+          of starting from Guided 95 Page 2's defaults.
+        */}
         {renderConfidenceApplication()}
-        </section>
+      </section>
     </div>
   );
 
   const renderGuided99Page = () => (
-    <div className='guided-page'>
-      <section className='guided-section'>
-        <h2>Part 2: Construct a 99% Confidence interval.</h2>
+    <div className="guided-page">
+      <section className="guided-section">
+        <h2>
+          Part 2: Construct a 99% Confidence interval.
+        </h2>
+
         <p>
-          A confidence interval app is displayed below. Try to construct a 99% using the same sample mean (0.8) and SE (0.18). 
-          After you finish your construction in Step 1, review Steps 2 and 3 to see the correct solution. 
-          If your interval is incorrect, revise your work in the confidence interval app based on the explanations provided in those steps.
+          A confidence interval app is displayed below. Try to construct a 99%
+          using the same sample mean (0.8) and SE (0.18). After you finish your
+          construction in Step 1, review Steps 2 and 3 to see the correct
+          solution. If your interval is incorrect, revise your work in the
+          confidence interval app based on the explanations provided in those
+          steps.
         </p>
 
-        <p className='guided-step-title'>Before you starts, first change the α value for a 99% confidence interval. Notice how the coloring of the sampling distribution changes when you change α from .05</p>
+        <p className="guided-step-title">
+          Before you starts, first change the α value for a 99% confidence
+          interval. Notice how the coloring of the sampling distribution changes
+          when you change α from .05
+        </p>
+
         <img
           className="guided-step-img"
-          src={assetPath('guided-step-1.png')}
+          src={assetPath(
+            'guided-step-1.png',
+          )}
           alt="Step 1 instruction"
         />
       </section>
-      <section className='guided-section'>
-        <p>Step 1: Move the sampling distribution in the app below to find the lower bound and upper bound of the 99% confidence interval.</p>
-        <p>Your activity in the app will be recorded. To receive extra credit, it is important that you complete all steps and fully engage with the activity.</p>
+
+      <section className="guided-section">
+        <p>
+          Step 1: Move the sampling distribution in the app below to find the
+          lower bound and upper bound of the 99% confidence interval.
+        </p>
+
+        <p>
+          Your activity in the app will be recorded. To receive extra credit, it
+          is important that you complete all steps and fully engage with the
+          activity.
+        </p>
+
         {renderConfidenceApplication()}
 
         <div className="guided-answer-section">
@@ -1227,16 +1776,26 @@ const extraAnswersRef = useRef<Record<string, string>>({});
         <textarea
           value={transfer3AAnswer}
           onChange={(event) => {
-            const value = event.currentTarget.value;
-            setTransfer3AAnswer(value);
-            saveExtraAnswer('transfer_3_a_reject_null_explanation', value);
+            const value =
+              event.currentTarget.value;
+
+            setTransfer3AAnswer(
+              value,
+            );
+
+            saveExtraAnswer(
+              'transfer_3_a_reject_null_explanation',
+              value,
+            );
           }}
           style={{
-            width: 'min(550px, 100%)',
+            width:
+              'min(550px, 100%)',
             minHeight: '84px',
             padding: '8px',
             fontSize: '16px',
-            boxSizing: 'border-box',
+            boxSizing:
+              'border-box',
           }}
         />
       </section>
@@ -1250,12 +1809,17 @@ const extraAnswersRef = useRef<Record<string, string>>({});
         {renderConfidenceApplication()}
 
         <p>
-          <span className="guided-bold">Tips:</span> To change standard error to 0.5:
+          <span className="guided-bold">
+            Tips:
+          </span>{" "}
+          To change standard error to 0.5:
         </p>
 
         <img
           className="guided-step-img"
-          src={assetPath('stdError.png')}
+          src={assetPath(
+            'stdError.png',
+          )}
           alt="Instruction showing how to change the standard error to 0.5"
         />
 
@@ -1283,22 +1847,26 @@ const extraAnswersRef = useRef<Record<string, string>>({});
         >
           {[
             {
-              value: 'no_change',
+              value:
+                'no_change',
               label:
                 'The sampling distribution actually did not change because standard error does not affect its shape.',
             },
             {
-              value: 'auto_scale',
+              value:
+                'auto_scale',
               label:
                 'The sampling distribution became less variable, but it appears similar because the axis scale adjusted.',
             },
             {
-              value: 'mean_changed',
+              value:
+                'mean_changed',
               label:
                 'The mean of the sampling distribution changed, offsetting the reduction in variability.',
             },
             {
-              value: 'sample_size_decreased',
+              value:
+                'sample_size_decreased',
               label:
                 'The sample size decreased, which counteracted the change in standard error.',
             },
@@ -1307,7 +1875,8 @@ const extraAnswersRef = useRef<Record<string, string>>({});
               key={option.value}
               style={{
                 display: 'flex',
-                alignItems: 'center',
+                alignItems:
+                  'center',
                 gap: '8px',
                 fontSize: '15px',
               }}
@@ -1316,15 +1885,32 @@ const extraAnswersRef = useRef<Record<string, string>>({});
                 type="radio"
                 name={`${taskId}-transfer-3-b`}
                 value={option.value}
-                checked={transfer3BAnswer === option.value}
-                onChange={(event) => {
-                  const value = event.currentTarget.value;
-                  setTransfer3BAnswer(value);
-                  saveExtraAnswer('transfer_3_b_scale_explanation', value);
+                checked={
+                  transfer3BAnswer ===
+                  option.value
+                }
+                onChange={(
+                  event,
+                ) => {
+                  const value =
+                    event
+                      .currentTarget
+                      .value;
+
+                  setTransfer3BAnswer(
+                    value,
+                  );
+
+                  saveExtraAnswer(
+                    'transfer_3_b_scale_explanation',
+                    value,
+                  );
                 }}
               />
 
-              <span>{option.label}</span>
+              <span>
+                {option.label}
+              </span>
             </label>
           ))}
         </div>
@@ -1342,7 +1928,9 @@ const extraAnswersRef = useRef<Record<string, string>>({});
 
         <img
           className="guided-step-img"
-          src={assetPath('guidance.png')}
+          src={assetPath(
+            'guidance.png',
+          )}
           alt="Guide for using the app to find the 99% confidence interval"
         />
 
@@ -1395,7 +1983,10 @@ const extraAnswersRef = useRef<Record<string, string>>({});
 
   return (
     <>
-      <style>{GUIDED_PAGE_CSS}</style>
+      <style>
+        {GUIDED_PAGE_CSS}
+      </style>
+
       {renderSelectedPage()}
     </>
   );
