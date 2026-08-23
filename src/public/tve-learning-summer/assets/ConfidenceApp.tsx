@@ -217,7 +217,7 @@ function App({
     (isGuided99Page
       ? 0.18
       : isTransfer3Page
-        ? 0.5
+        ? 0.8
         : 1);
 
   const initialCurve =
@@ -1359,60 +1359,6 @@ const extraAnswersRef = useRef<Record<string, string>>({});
         {renderConfidenceIntervalInputs(
           'What is the 99% confidence interval?',
         )}
-      </section>
-
-      <section className="guided-section">
-        <p className="guided-step-title">
-          d) If the standard error becomes smaller, 1.1 to 0.5, the confidence
-          interval becomes ________.
-        </p>
-
-        <div
-          style={{
-            display: 'grid',
-            gap: '12px',
-            marginTop: '18px',
-          }}
-        >
-          {[
-            {
-              value: 'wider',
-              label: 'Wider',
-            },
-            {
-              value: 'narrower',
-              label: 'Narrower',
-            },
-            {
-              value: 'not_sure',
-              label: 'Not sure',
-            },
-          ].map((option) => (
-            <label
-              key={option.value}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                fontSize: '15px',
-              }}
-            >
-              <input
-                type="radio"
-                name={`${taskId}-transfer-3-d`}
-                value={option.value}
-                checked={transfer3DAnswer === option.value}
-                onChange={(event) => {
-                  const value = event.currentTarget.value;
-                  setTransfer3DAnswer(value);
-                  saveExtraAnswer('transfer_3_d_ci_width', value);
-                }}
-              />
-
-              <span>{option.label}</span>
-            </label>
-          ))}
-        </div>
       </section>
     </div>
   );

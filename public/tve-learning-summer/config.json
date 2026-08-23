@@ -372,7 +372,9 @@
                 "pageId": "guided-95",
                 "taskId": "guided-confidence-95"
             },
-            "response": [],
+            "response": [
+
+            ],
             "recordAudio": true
         },
         "Main_ExploreFirst2": {
@@ -383,7 +385,7 @@
                 "taskId": "guided-confidence-95-2"
             },
             "response": [
-                {
+                                {
                     "id": "tve-learning/Q7",
                     "type": "radio",
                     "prompt": "Were you able to successfully find the lower and upper bond of the 95% confidence interval before you see the demonstration in Step 6 and 7? If no, please use the App below again to construct the 95% confidence interval correctly.\n\nHere's the link to the tutorial slides again:\nhttps://docs.google.com/presentation/d/1PyE9iHXErAeq5Q0PsHBxDDrcxcLkwmxTRa-_zIhx5KQ/edit?usp=sharing",
@@ -889,7 +891,18 @@
                 "pageId": "transfer-3",
                 "taskId" : "transfer-3"
             },
-            "response": [],
+            "response": [
+                {
+                    "id": "tve-learning-summer/transfer_3_d",
+                    "type": "radio",
+                    "prompt": "d) If the standard error becomes smaller, 1.1 to 0.5, the confidence interval becomes ________.",
+                    "options": [
+                        "Wider",
+                        "Narrower",
+                        "Not sure"
+                    ]
+                }
+            ],
             "recordAudio": true
         },
         "Debrief": {
